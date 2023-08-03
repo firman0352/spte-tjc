@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasUuids;
 
     /**
      * The attributes that are mass assignable.
@@ -42,4 +44,46 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function roles(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function hasRole($role)
+    {
+        switch ($role) {
+            case 'customer':
+                if ($this->role_id == Role::IS_CUSTOMER) {
+                    return true;
+                }
+                return false;
+            case 'admin':
+                if ($this->role_id == Role::IS_ADMIN) {
+                    return true;
+                }
+                return false;
+            case 'inspektur':
+                if ($this->role_id == Role::IS_INSPEKTUR) {
+                    return true;
+                }
+                return false;  
+            default:
+                return false;
+        }
+    }
+
+    public function roleName()
+    {
+        switch ($this->role_id) {
+            case Role::IS_CUSTOMER:
+                return 'customer';
+            case Role::IS_ADMIN:
+                return 'admin';
+            case Role::IS_INSPEKTUR:
+                return 'inspektur';
+            default:
+                return 'customer';
+        }
+    }
 }

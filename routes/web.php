@@ -18,9 +18,29 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified', 'role:admin'])->name('dashboard');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::middleware('role:customer')->prefix('customer')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('dashboard');
+        })->name('customer.dashboard');
+    });
+
+    Route::middleware('role:admin')->prefix('admin')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('dashboard');
+        })->name('admin.dashboard');
+    });
+
+    Route::middleware('role:inspektur')->prefix('inspektur')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('dashboard');
+        })->name('inspektur.dashboard');
+    });
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
