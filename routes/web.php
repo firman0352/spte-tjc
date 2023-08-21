@@ -16,35 +16,35 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('auth.login');
+})->name('/login')->middleware('auth');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified', 'role:admin'])->name('dashboard');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::middleware('role:customer')->prefix('customer')->group(function () {
+Route::middleware(['auth', 'verified','PreventBackHistory'])->group(function () {
+    Route::middleware(['role:customer'])->prefix('customer')->group(function () {
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('customer.dashboard');
     });
 
-    Route::middleware('role:admin')->prefix('admin')->group(function () {
+    Route::middleware(['role:admin'])->prefix('admin')->group(function () {
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('admin.dashboard');
         Route::resource('jabatan', JabatanController::class);
     });
 
-    Route::middleware('role:inspektur')->prefix('inspektur')->group(function () {
+    Route::middleware(['role:inspektur'])->prefix('inspektur')->group(function () {
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('inspektur.dashboard');
     });
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth','PreventBackHistory')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
