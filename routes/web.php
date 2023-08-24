@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\InspekturController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,7 @@ Route::middleware(['auth', 'verified','PreventBackHistory'])->group(function () 
             return view('dashboard');
         })->name('admin.dashboard');
         Route::resource('jabatan', JabatanController::class);
+        Route::resource('inspektur', InspekturController::class);
     });
 
     Route::middleware(['role:inspektur'])->prefix('inspektur')->group(function () {
