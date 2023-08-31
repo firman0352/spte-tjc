@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\InspekturController;
+use App\Http\Controllers\DokumenCustomerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +30,9 @@ Route::middleware(['auth', 'verified','PreventBackHistory'])->group(function () 
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('customer.dashboard');
+        Route::resource('dokumen', DokumenCustomerController::class)->parameters([
+            'dokumen' => 'dokumen' //mencegah parameter dokumen menjadi dokuman
+        ]);
     });
 
     Route::middleware(['role:admin'])->prefix('admin')->group(function () {

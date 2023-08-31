@@ -47,6 +47,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    //relationship
     public function roles(): BelongsTo
     {
         return $this->belongsTo(Role::class);
@@ -56,6 +57,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(Inspektur::class);
     }
+
+    public function DokumenCustomer(): HasOne
+    {
+        return $this->hasOne(DokumenCustomer::class);
+    }
+    //end relationship
 
     public function hasRole($role)
     {

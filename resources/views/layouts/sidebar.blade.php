@@ -23,6 +23,11 @@
                             {{ __('Inspektur') }}
                         </x-nav-link>
                     @endif
+                    @if (auth()->user()->roleName() == 'customer')
+                        <x-nav-link :href="route('dokumen.index')" :active="request()->routeIs('dokumen.index')">
+                            {{ __('Dokumen') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
             </div>
