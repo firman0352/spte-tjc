@@ -22,7 +22,7 @@
 
             <!-- Page Heading -->
             @if (isset($header))
-                <header>
+                <header class="sm:pl-48 pt-20">
                     <div class="max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
@@ -30,7 +30,7 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="sm:pl-48 pb-20">
                 {{ $slot }}
             </main>
             </div>
