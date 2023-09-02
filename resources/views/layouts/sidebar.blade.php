@@ -14,6 +14,14 @@
                         <x-nav-link :href="route('jabatan.index')" :active="request()->routeIs('jabatan.index')">
                             {{ __('Jabatan') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('inspektur.index')" :active="request()->routeIs('inspektur.index')">
+                            {{ __('Inspektur') }}
+                        </x-nav-link>
+                    @endif
+                    @if (auth()->user()->roleName() == 'customer')
+                        <x-nav-link :href="route('dokumen.index')" :active="request()->routeIs('dokumen.index')">
+                            {{ __('Dokumen') }}
+                        </x-nav-link>
                     @endif
                 </div>
             </div>

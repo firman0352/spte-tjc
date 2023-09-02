@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -22,6 +23,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'role_id',
         'password',
     ];
 
@@ -45,10 +47,22 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    //relationship
     public function roles(): BelongsTo
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function inspektur(): HasOne
+    {
+        return $this->hasOne(Inspektur::class);
+    }
+
+    public function DokumenCustomer(): HasOne
+    {
+        return $this->hasOne(DokumenCustomer::class);
+    }
+    //end relationship
 
     public function hasRole($role)
     {
