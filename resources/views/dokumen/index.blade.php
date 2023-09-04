@@ -6,8 +6,8 @@
     </x-slot>
  
     <div >
-        <div class="max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+        <div class="max-w-full px-4">
+            <div class="overflow-hidden bg-white shadow-sm rounded-lg">
                 <div class="overflow-hidden bg-white p-6">
                     <!-- Display Success Message -->
                     @if (session('success'))
