@@ -6,8 +6,8 @@
     </x-slot>
 
     <div >
-        <div class="max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+        <div class="max-w-full px-4">
+            <div class="overflow-hidden bg-white shadow-sm rounded-lg">
                 <div class="overflow-hidden overflow-x-auto border-b border-gray-200 bg-white p-6">
                     <form action="{{ route('dokumen.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
