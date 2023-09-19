@@ -4,7 +4,6 @@
         <div class="flex h-16 w-full ">
             <div class="justify-between w-full flex">
                 <!-- Logo -->
-                
                 <div class="flex flex-row gap-2">
                     <div :class="{'hidden': open, 'inline-flex': ! open }" class="shrink-0 flex items-center h-16 justifry-self-start">
                         <a href="{{ route(auth()->user()->roleName().'.dashboard') }}">

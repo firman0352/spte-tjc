@@ -54,6 +54,16 @@
                                 </tr>
                                 <tr>
                                     <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                        @if ($dokumen->status_id == 1)
+                                            <form action="{{ route('dokumen.verifikasi', $dokumen) }}" method="POST" onsubmit="return confirm('Are you sure?')" style="display: inline-block;">
+                                                @csrf
+                                                @method('PUT')
+                                                <x-danger-button>
+                                                    Verifikasi Dokumen
+                                                </x-danger-button>
+                                            </form>
+                                        @endif
+                                        @if ($dokumen->status_id == 1 || $dokumen->status_id == 5 || $dokumen->status_id == 4)
                                         <a href="{{ route('dokumen.edit', $dokumen) }}"
                                            class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25">
                                             Edit
@@ -65,6 +75,7 @@
                                                 Delete
                                             </x-danger-button>
                                         </form>
+                                        @endif
                                     </td>
                                 </tr>
                                 <!-- Tambahkan field lain sesuai kebutuhan sebagai baris tambahan -->
