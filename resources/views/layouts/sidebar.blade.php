@@ -17,6 +17,12 @@
                         <x-nav-link :href="route('inspektur.index')" :active="request()->routeIs('inspektur.index')">
                             {{ __('Inspektur') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.verifikasi.menunggu')" :active="request()->routeIs('admin.verifikasi.menunggu')">
+                            {{ __('Menunggu Verifikasi') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('verifikasi.index')" :active="request()->routeIs('verifikasi.index')">
+                            {{ __('Proses Verifikasi') }}
+                        </x-nav-link>
                     @endif
                     @if (auth()->user()->roleName() == 'customer')
                         <x-nav-link :href="route('dokumen.index')" :active="request()->routeIs('dokumen.index')">

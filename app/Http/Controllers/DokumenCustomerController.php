@@ -20,10 +20,10 @@ class DokumenCustomerController extends Controller
                 'tempUrl' => null,
             ]);
         }
-        $dokumen = auth()->user()->DokumenCustomer->with('status:id,status')->first();
+        $dokumen = auth()->user()->DokumenCustomer;
 
         $path = $dokumen->dokumen;
-        $tempUrl = Storage::temporaryUrl($path, now()->addMinutes(5));
+        $tempUrl = $dokumen->getTempUrl($path);
 
         return view('dokumen.index', compact('dokumen', 'tempUrl'));
     }
@@ -61,7 +61,7 @@ class DokumenCustomerController extends Controller
         DokumenCustomer::create([
             'dokumen' => $path,
             'user_id' => auth()->user()->id,
-            'status_id' => StatusDokumen::MENUNGGU,
+            'status_id' => StatusDokumen::BELUM_VERIF,
             'nama_pt' => $request->nama_pt,
             'alamat_pt' => $request->alamat_pt,
             'no_telp' => $request->no_telp,            
@@ -75,7 +75,7 @@ class DokumenCustomerController extends Controller
      */
     public function edit(DokumenCustomer $dokumen)
     {
-        if ($dokumen->status_id != StatusDokumen::MENUNGGU && $dokumen->status_id != StatusDokumen::PERBAIKAN) {
+        if ($dokumen->status_id != StatusDokumen::BELUM_VERIF && $dokumen->status_id != StatusDokumen::PERBAIKAN && $dokumen->status_id != StatusDokumen::DITOLAK) {
             return redirect()->route('dokumen.index')->with('error', 'Anda tidak dapat mengubah dokumen dengan status saat ini.');
         }
 
@@ -88,7 +88,7 @@ class DokumenCustomerController extends Controller
     public function update(Request $request, DokumenCustomer $dokumen)
     {
         // Check if the current status is 1 or 4
-        if ($dokumen->status_id != StatusDokumen::MENUNGGU && $dokumen->status_id != StatusDokumen::PERBAIKAN) {
+        if ($dokumen->status_id != StatusDokumen::BELUM_VERIF && $dokumen->status_id != StatusDokumen::PERBAIKAN && $dokumen->status_id != StatusDokumen::DITOLAK) {
             return redirect()->route('dokumen.index')->with('error', 'Anda tidak dapat mengubah dokumen dengan status saat ini.');
         }
 
@@ -113,7 +113,7 @@ class DokumenCustomerController extends Controller
             'nama_pt' => $request->nama_pt,
             'alamat_pt' => $request->alamat_pt,
             'no_telp' => $request->no_telp,
-            'status_id' => StatusDokumen::MENUNGGU,
+            'status_id' => StatusDokumen::BELUM_VERIF,
         ]);
 
         return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil diperbarui');
@@ -124,7 +124,7 @@ class DokumenCustomerController extends Controller
      */
     public function destroy(DokumenCustomer $dokumen)
     {
-        if ($dokumen->status_id != StatusDokumen::MENUNGGU && $dokumen->status_id != StatusDokumen::PERBAIKAN) {
+        if ($dokumen->status_id != StatusDokumen::BELUM_VERIF && $dokumen->status_id != StatusDokumen::PERBAIKAN && $dokumen->status_id != StatusDokumen::DITOLAK) {
             return redirect()->route('dokumen.index')->with('error', 'Anda tidak dapat menghapus dokumen dengan status saat ini.');
         }
 
@@ -134,5 +134,32 @@ class DokumenCustomerController extends Controller
         $dokumen->delete();
         
         return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil dihapus');
+    }
+
+////////////////////////////////////////////////////////////////////////////////////
+    public function verifikasi(DokumenCustomer $dokumen)
+    {
+        if ($dokumen->status_id != StatusDokumen::BELUM_VERIF) {
+            return redirect()->route('dokumen.index')->with('error', 'Anda tidak dapat mengajukan verifikasi dokumen dengan status saat ini.');
+        }
+
+        $dokumen->update(['status_id' => StatusDokumen::MENUNGGU]);
+
+        return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil diajukan untuk verifikasi');
+    }
+    
+    public function dokumen()
+    {
+        $dokumen = DokumenCustomer::with('status', 'user')->get();
+
+        return view('dokumen.admin.index', compact('dokumen'));
+    }
+
+    public function dokumenByStatus($status)
+    {
+        // Misalnya, Anda dapat menggunakan Eloquent untuk mengambil data dokumen dengan status tertentu
+        $dokumen = DokumenCustomer::where('status_id', $status)->with('status', 'user')->get();
+
+        return response()->json(['dokumen' => $dokumen]);
     }
 }

@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div :class="{'hidden': open, 'inline-flex': ! open }" class="shrink-0 flex items-center h-16 justifry-self-start">
                     <a href="{{ route(auth()->user()->roleName().'.dashboard') }}">
-                        TRI JAYA CONTOL
+                        TRI JAYA COCO
                     </a>
                 </div>
 

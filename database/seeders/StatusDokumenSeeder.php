@@ -14,10 +14,13 @@ class StatusDokumenSeeder extends Seeder
     {
         $status = [
             [
+                'status' => 'Belum Verifikasi',
+            ],
+            [
                 'status' => 'Menunggu Verifikasi',
             ],
             [
-                'status' => 'Selesai',
+                'status' => 'Sudah Verifikasi',
             ],
             [
                 'status' => 'Ditolak',

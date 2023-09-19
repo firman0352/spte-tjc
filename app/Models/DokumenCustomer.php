@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Storage;
 
 class DokumenCustomer extends Model
 {
@@ -18,13 +21,28 @@ class DokumenCustomer extends Model
         'no_telp'
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function status()
+    public function status(): BelongsTo
     {
         return $this->belongsTo(StatusDokumen::class);
+    }
+
+    public function verifikasi(): HasOne
+    {
+        return $this->hasOne(Verifikasi::class);
+    }
+
+    public function getTempUrl($path)
+    {
+        $url = Storage::temporaryUrl(
+            $path,
+            now()->addMinutes(5)
+        );
+
+        return $url;
     }
 }
