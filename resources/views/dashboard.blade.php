@@ -4,7 +4,6 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-
     <div class="container max-w-full">
         <div class="max-w-full px-4">
             <div class="bg-white overflow-hidden shadow-sm rounded-lg">
