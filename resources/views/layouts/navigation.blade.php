@@ -1,15 +1,11 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 fixed w-full top-0 left-0 flex justify-between sm:block">
+<nav class="bg-white border-b border-gray-100 fixed w-full top-0 left-0 flex justify-between sm:block">
     <!-- Primary Navigation Menu -->
-    <div class="flex-1 px-4 md:px-8 mx-auto flex flex-row-reverse justify-start shadow">
+    <div class="flex-1 px-4 md:px-8 sm:ml-0 mx-auto flex flex-row-reverse justify-start shadow duration-300" :class="{ 'md:ml-20': isMinimizeSidebar, 'md:ml-48': ! isMinimizeSidebar}">
         <div class="flex h-16 w-full ">
             <div class="justify-between w-full flex">
                 <!-- Logo -->
                 <div class="flex flex-row gap-2">
-                    <div :class="{'hidden': open, 'inline-flex': ! open }" class="shrink-0 flex items-center h-16 justifry-self-start">
-                        <a href="{{ route(auth()->user()->roleName().'.dashboard') }}">
-                            TRI JAYA CONTOL
-                        </a>
-                    </div>
+                    
                 </div>
 
             <!-- Settings Dropdown -->
