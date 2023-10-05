@@ -13,13 +13,15 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script type="text/javascript" src="{{ URL::asset('/init-alpine.js') }}"></script>
+
     </head>
-    <body class="font-sans antialiased flex flex-row">
+    <body x-data="data()" class="font-sans antialiased flex flex-row" >
         <div class="min-h-screen bg-white-purple">
             @include('layouts.sidebar')
             <div class="min-h-screen bg-white-purple w-full">
-            @include('layouts.navigation')
-            <div class="pt-16 md:pl-48">
+                @include('layouts.navigation')
+            <div class="pt-16 duration-300 md:pl-60" :class="{ 'md:pl-20': isMinimizeSidebar, 'md:pl-60': ! isMinimizeSidebar}">
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="lg:px-16 md:px-6 pt-8">
