@@ -6,7 +6,8 @@
                 
 
                 <!-- Navigation Links -->
-                <div class="hidden space-y-8 sm:-my-px sm:mt-8 sm:flex flex-col mx-auto">
+                <div class="hidden  sm:-my-px sm:mt-8 sm:flex flex-col mx-auto">
+                    <div class="flex flex-col space-y-8">
                     <x-nav-link :href="route(auth()->user()->roleName().'.dashboard')" :active="request()->routeIs(auth()->user()->roleName().'.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
@@ -29,6 +30,7 @@
                             {{ __('Dokumen') }}
                         </x-nav-link>
                     @endif
+                    </div>
                 </div>
             </div>
             </div>
