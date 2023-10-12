@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Detail Dokumen') }}
+            {{ __('Detail Document') }}
         </h2>
     </x-slot>
  
@@ -27,19 +27,19 @@
                         <tbody>
                             @if ($dokumen)
                                 <tr>
-                                    <td class="label bg-gray-50 px-6 py-2">Nama Perusahaan</td><td>:</td>
+                                    <td class="label bg-gray-50 px-6 py-2">Company Name</td><td>:</td>
                                     <td class="px-1 py-2">{{ $dokumen->nama_pt }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="label bg-gray-50 px-6 py-2">Alamat Perusahaan</td><td>:</td>
+                                    <td class="label bg-gray-50 px-6 py-2">Company Address</td><td>:</td>
                                     <td class="px-1 py-2">{{ $dokumen->alamat_pt }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="label bg-gray-50 px-6 py-2">No Telepon</td><td>:</td>
+                                    <td class="label bg-gray-50 px-6 py-2">Phone Number</td><td>:</td>
                                     <td class="px-1 py-2">{{ $dokumen->no_telp }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="label bg-gray-50 px-6 py-2">Dokumen</td><td>:</td>
+                                    <td class="label bg-gray-50 px-6 py-2">Document</td><td>:</td>
                                     <td class="px-1 py-2">
                                         <a href="{{ $tempUrl }}" target="_blank" class="text-indigo-600 hover:text-indigo-900">Lihat Dokumen</a>
                                     </td>
@@ -81,7 +81,7 @@
                                 <!-- Tambahkan field lain sesuai kebutuhan sebagai baris tambahan -->
                             @else
                                 <tr>
-                                    <td class="label bg-gray-50 px-6 py-2" colspan="2">Anda belum memiliki dokumen.</td>
+                                    <td class="label bg-gray-50 px-6 py-2" colspan="2">No document has been created</td>
                                 </tr>
                                 <tr>
                                     <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap" colspan="2">
