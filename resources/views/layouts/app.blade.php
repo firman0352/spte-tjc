@@ -13,7 +13,9 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.1/dist/cdn.min.js"></script>
         <script type="text/javascript" src="{{ URL::asset('/init-alpine.js') }}"></script>
+
 
     </head>
     <body x-data="data()" class="font-sans antialiased flex flex-row" >

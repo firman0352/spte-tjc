@@ -21,6 +21,13 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function changePassword(Request $request): View
+    {
+        return view('profile.edit-password', [
+            'user' => $request->user(),
+        ]);
+    }
+
     /**
      * Update the user's profile information.
      */
