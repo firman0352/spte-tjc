@@ -65,7 +65,7 @@ class User extends Authenticatable
     }
     //end relationship
 
-    public function hasRole($role)
+    public function hasRole($role, $inspekturJabatan = null)
     {
         switch ($role) {
             case 'customer':
@@ -80,7 +80,12 @@ class User extends Authenticatable
                 return false;
             case 'inspektur':
                 if ($this->role_id == Role::IS_INSPEKTUR) {
-                    return true;
+                    if ($inspekturJabatan === null) {
+                        return true;
+                    } elseif ($this->inspektur->jabatan_id == $inspekturJabatan) {
+                        return true;
+                    }
+                    return false;
                 }
                 return false;  
             default:

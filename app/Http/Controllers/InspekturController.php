@@ -43,7 +43,7 @@ class InspekturController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string'],
             'email' => ['required', 'email', 'unique:users,email'],
-            'jabatan' => ['required', 'exists:jabatans,id', 'unique:inspekturs,jabatan_id'],
+            'jabatan' => ['required', 'exists:jabatans,id'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -84,7 +84,7 @@ class InspekturController extends Controller
     public function update(Request $request, Inspektur $inspektur)
     {
         $validated = $request->validate([
-            'jabatan' => ['required', 'exists:jabatans,id', 'unique:inspekturs,jabatan_id'],
+            'jabatan' => ['required', 'exists:jabatans,id'],
         ]);
 
         $inspektur->update([
