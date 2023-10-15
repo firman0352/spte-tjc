@@ -21,9 +21,18 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="inspektur_id" class="block text-gray-700 text-sm font-semibold mb-2">Select Inspektur:</label>
+                            <label for="inspektur_id" class="block text-gray-700 text-sm font-semibold mb-2">Select Inspektur 1:</label>
                             <select name="inspektur_id" id="inspektur_id" class="w-full p-2 border rounded">
-                                @foreach ($inspekturs as $inspektur)
+                                @foreach ($inspektur1 as $inspektur)
+                                    <option value="{{ $inspektur->id }}">{{ $inspektur->user->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="inspektur2_id" class="block text-gray-700 text-sm font-semibold mb-2">Select Inspektur 2:</label>
+                            <select name="inspektur2_id" id="inspektur2_id" class="w-full p-2 border rounded">
+                                @foreach ($inspektur2 as $inspektur)
                                     <option value="{{ $inspektur->id }}">{{ $inspektur->user->name }}</option>
                                 @endforeach
                             </select>
@@ -36,16 +45,6 @@
                                     <option value="{{ $statusDokumen->id }}">{{ $statusDokumen->status }}</option>
                                 @endforeach
                             </select>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="tanggal_mulai" class="block text-gray-700 text-sm font-semibold mb-2">Tanggal Mulai:</label>
-                            <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="w-full p-2 border rounded">
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="tanggal_selesai" class="block text-gray-700 text-sm font-semibold mb-2">Tanggal Selesai:</label>
-                            <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="w-full p-2 border rounded">
                         </div>
 
                         <div>

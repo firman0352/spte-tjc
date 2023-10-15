@@ -15,9 +15,12 @@ class Verifikasi extends Model
     protected $fillable = [
         'dokumen_customer_id',
         'inspektur_id',
+        'inspektur2_id',
         'status_id',
         'tanggal_mulai',
         'tanggal_selesai',
+        'comment',
+        'rejecting_inspektur'
     ];
 
     public function dokumenCustomer(): BelongsTo
@@ -28,6 +31,11 @@ class Verifikasi extends Model
     public function inspektur(): BelongsTo
     {
         return $this->belongsTo(Inspektur::class, 'inspektur_id', 'id');
+    }
+
+    public function inspektur2(): BelongsTo
+    {
+        return $this->belongsTo(Inspektur::class, 'inspektur2_id', 'id');
     }
 
     public function statusDokumen(): BelongsTo

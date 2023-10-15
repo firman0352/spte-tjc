@@ -65,6 +65,10 @@ Route::middleware(['auth', 'verified','PreventBackHistory'])->group(function () 
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('inspektur.dashboard');
+        Route::get('/verifikasi', [VerifikasiController::class, 'indexInspektur'])->name('inspektur.verifikasi.index');
+        Route::get('/verifikasi/show/{verifikasi}', [VerifikasiController::class, 'showInspektur'])->name('inspektur.verifikasi.show');
+        Route::patch('/verifikasi/{verifikasi}', [VerifikasiController::class, 'approveInspektur'])->name('inspektur.verifikasi.approve');
+        Route::patch('/verifikasi/tolak/{verifikasi}', [VerifikasiController::class, 'rejectInspektur'])->name('inspektur.verifikasi.reject');
     });
 });
 

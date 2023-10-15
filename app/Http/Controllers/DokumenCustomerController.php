@@ -25,7 +25,9 @@ class DokumenCustomerController extends Controller
         $path = $dokumen->dokumen;
         $tempUrl = $dokumen->getTempUrl($path);
 
-        return view('dokumen.index', compact('dokumen', 'tempUrl'));
+        $comment = optional($dokumen->verifikasi)->comment;
+
+        return view('dokumen.index', compact('dokumen', 'tempUrl', 'comment'));
     }
 
     /**
@@ -143,9 +145,33 @@ class DokumenCustomerController extends Controller
             return redirect()->route('dokumen.index')->with('error', 'Anda tidak dapat mengajukan verifikasi dokumen dengan status saat ini.');
         }
 
-        $dokumen->update(['status_id' => StatusDokumen::MENUNGGU]);
+        if (!$dokumen->verifikasi) {
+            $dokumen->update(['status_id' => StatusDokumen::MENUNGGU]);
+            return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil diajukan untuk verifikasi');
+        }
 
-        return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil diajukan untuk verifikasi');
+        // Create a map of 'rejecting_inspektur' to 'status_id'
+        $statusMapping = [
+            1 => StatusDokumen::DALAM_PROSES,
+            2 => StatusDokumen::INSPEKTUR_1,
+            // Add more mappings as needed
+        ];
+
+        $rejectingInsp = $dokumen->verifikasi->rejecting_inspektur;
+
+        if (array_key_exists($rejectingInsp, $statusMapping)) {
+            $dokumen->verifikasi->update([
+                'status_id' => $statusMapping[$rejectingInsp],
+                'comment' => '',
+                'rejecting_inspektur' => null, // Assuming this is a nullable field
+            ]);
+
+            $dokumen->update(['status_id' => $statusMapping[$rejectingInsp]]);
+
+            return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil diajukan untuk verifikasi ulang');
+        }
+
+        return redirect()->route('dokumen.index');
     }
     
     public function dokumen()
