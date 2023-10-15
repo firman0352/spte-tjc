@@ -53,19 +53,24 @@
             @endif
         </div>
 
-
-        <div class="flex items-center gap-4">
+        <div class="flex flex-col items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
-                <p
+            <div class="toast toast-top toast-center">
+                <div class="alert alert-success"
                     x-data="{ show: true }"
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
                     class="text-sm text-gray-600"
-                >{{ __('Saved.') }}</p>
+                ><span>Profile has been succesfully updated</span></div>
+            </div>
             @endif
         </div>
     </form>
+    <a href="{{ route('profile.edit.password') }}" class="mt-4 min-w-full items-center justify-center inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150'">
+        {{ __('Change Password') }}
+    </a>
 </section>
+
