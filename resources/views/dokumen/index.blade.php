@@ -52,6 +52,12 @@
                                     <td class="label bg-gray-50 px-6 py-2">Status</td><td>:</td>
                                     <td class="px-1 py-2">{{ $dokumen->status->status }}</td>
                                 </tr>
+                                @if($comment)
+                                    <tr>
+                                        <td class="label bg-gray-50 px-6 py-2">Comment</td><td>:</td>
+                                        <td class="px-1 py-2">{{ $comment }}</td>
+                                    </tr>
+                                @endif
                                 <tr>
                                     <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                                         @if ($dokumen->status_id == 1)
