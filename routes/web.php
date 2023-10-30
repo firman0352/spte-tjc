@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\InspekturController;
 use App\Http\Controllers\DokumenCustomerController;
+use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\VerifikasiController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -46,19 +47,32 @@ Route::middleware(['auth', 'verified','PreventBackHistory'])->group(function () 
         Route::resource('dokumen', DokumenCustomerController::class)->parameters([
             'dokumen' => 'dokumen' //mencegah parameter dokumen menjadi dokuman
         ]);
+        Route::middleware(['verified.customer'])->group(function () {
+            Route::get('pengajuan', [PengajuanController::class, 'indexCustomer'])->name('pengajuan.index');
+            Route::get('pengajuan/create', [PengajuanController::class, 'create'])->name('pengajuan.create');
+            Route::post('pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store');
+        });
     });
 
     Route::middleware(['role:admin'])->prefix('admin')->group(function () {
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('admin.dashboard');
-        Route::get('/verifikasi/menunggu', [VerifikasiController::class, 'menungguVerifikasi'])->name('admin.verifikasi.menunggu');
-        Route::get('/verifikasi/create/{dokumen}', [VerifikasiController::class, 'createVerifikasi'])->name('admin.verifikasi.create');
-        Route::post('/verifikasi/store', [VerifikasiController::class, 'verifikasiAdmin'])->name('admin.verifikasi.store');
-        Route::put('/verifikasi/tolak/{dokumen}', [VerifikasiController::class, 'tolakMenunggu'])->name('admin.verifikasi.tolak');
+        Route::group([''], function () {
+            Route::get('/pengajuan', [PengajuanController::class, 'indexAdmin'])->name('admin.pengajuan.index');
+            Route::get('/pengajuan/show/{pengajuan}', [PengajuanController::class, 'show'])->name('admin.pengajuan.show');
+            Route::patch('/pengajuan/approve/{pengajuan}', [PengajuanController::class, 'approve'])->name('admin.pengajuan.approve');
+            Route::patch('/pengajuan/tolak/{pengajuan}', [PengajuanController::class, 'reject'])->name('admin.pengajuan.reject');
+        });
+        Route::group([''], function () {
+            Route::get('/verifikasi/menunggu', [VerifikasiController::class, 'menungguVerifikasi'])->name('admin.verifikasi.menunggu');
+            Route::get('/verifikasi/create/{dokumen}', [VerifikasiController::class, 'createVerifikasi'])->name('admin.verifikasi.create');
+            Route::post('/verifikasi/store', [VerifikasiController::class, 'verifikasiAdmin'])->name('admin.verifikasi.store');
+            Route::put('/verifikasi/tolak/{dokumen}', [VerifikasiController::class, 'tolakMenunggu'])->name('admin.verifikasi.tolak');
+            Route::resource('verifikasi', VerifikasiController::class);
+        });
         Route::resource('jabatan', JabatanController::class);
         Route::resource('inspektur', InspekturController::class);
-        Route::resource('verifikasi', VerifikasiController::class);
     });
 
     Route::middleware(['role:inspektur'])->prefix('inspektur')->group(function () {
