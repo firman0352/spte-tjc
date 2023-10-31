@@ -16,4 +16,9 @@ class StatusPengajuan extends Model
     {
         return $this->hasMany(Pengajuan::class);
     }
+
+    public function PenawaranHarga(): HasMany
+    {
+        return $this->hasMany(PenawaranHarga::class);
+    }
 }

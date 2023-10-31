@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pengajuan;
 use App\Http\Controllers\Controller;
 use App\Models\StatusPengajuan;
+use App\Models\PenawaranHarga;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -85,15 +86,45 @@ class PengajuanController extends Controller
         return view('transaksi.pengajuan.admin.index', compact('pengajuan'));
     }
 
+    public function reviewPengajuan(Request $request, Pengajuan $pengajuan)
+    {
+        return view('transaksi.pengajuan.review_pengajuan', compact('pengajuan'));
+    }
+
     public function approve(Request $request, Pengajuan $pengajuan)
     {
+        if ($pengajuan->status_id == 1) {
+        
+
+        $validated = $request->validate([
+            'harga' => 'required',
+            'dokumen' => 'required|file|mimes:pdf|max:2048',
+        ]);
+
+        $path = Storage::putFile('dokumen', $request->file('dokumen'));
+
+        PenawaranHarga::create([
+            'pengajuan_id' => $pengajuan->id,
+            'harga' => $validated['harga'],
+            'dokumen' => $path,
+            'status_id' => '1',
+        ]);
+
         $pengajuan->update(['status_id' => 2]); // change status_id to Disetujui
+
         return redirect()->route('admin.pengajuan.index')->with('success','Pengajuan berhasil disetujui');
+        } else {
+            return redirect()->route('admin.pengajuan.index')->with('error','Pengajuan sudah disetujui atau ditolak');
+        }
     }
 
     public function reject(Request $request, Pengajuan $pengajuan)
     {
+        if ($pengajuan->status_id == 1) {
         $pengajuan->update(['status_id' => 3]); // change status_id to Ditolak
         return redirect()->route('admin.pengajuan.index')->with('success','Pengajuan berhasil ditolak');
+        } else {
+            return redirect()->route('admin.pengajuan.index')->with('error','Pengajuan sudah disetujui atau ditolak');
+        }
     }
 }

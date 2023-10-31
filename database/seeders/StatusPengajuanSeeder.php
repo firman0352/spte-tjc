@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class StatusPengajuanSeeder extends Seeder
 {
@@ -23,5 +24,6 @@ class StatusPengajuanSeeder extends Seeder
                 'status' => 'Ditolak',
             ],
         ];
+        DB::table('status_pengajuans')->insert($status);
     }
 }

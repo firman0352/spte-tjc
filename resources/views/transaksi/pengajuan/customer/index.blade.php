@@ -5,6 +5,17 @@
         </h2>
     </x-slot>
 
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @elseif(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+
     <div>
         <div class="max-w-full px-4">
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
@@ -24,10 +35,16 @@
                                         <span class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Jumlah</span>
                                     </th>
                                     <th class="bg-gray-50 px-6 py-3 text-left">
-                                        <span class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Status ID</span>
+                                        <span class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Status Pengajuan</span>
+                                    </th>
+                                    <th class="bg-gray-50 px-6 py-3 text-left">
+                                        <span class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Status Penawaran Harga</span>
                                     </th>
                                     <th class="bg-gray-50 px-6 py-3 text-left">
                                         <span class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Dokumen</span>
+                                    </th>
+                                    <th class="bg-gray-50 px-6 py-3 text-left">
+                                        <span class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Action</span>
                                     </th>
                                 </tr>
                             </thead>
@@ -43,11 +60,24 @@
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                                             {{ $p->statusPengajuan->status }}
                                         </td>
+                                        <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                            @if($p->penawaranHarga)
+                                                {{ $p->penawaranHarga->status->status }}
+                                                @else
+                                                -
+                                            @endif
                                         <td>
                                             <a href="{{ $p->tempUrl }}" target="_blank" class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25">
                                                 View Dokumen
                                             </a>
                                         </td>
+                                        @if($p->penawaranHarga)
+                                            <td>
+                                                <a href="{{ route('penawaran-harga.show', $p->penawaranHarga->id) }}" class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25">
+                                                    View Penawaran Harga
+                                                </a>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

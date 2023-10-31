@@ -7,32 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Support\Facades\App;
 
-class Pengajuan extends Model
+class PenawaranHarga extends Model
 {
     use HasFactory, HasUuids;
     protected $fillable = [
-        'user_id',
-        'status_id',
-        'nama_produk',
-        'jumlah',
+        'pengajuan_id',
+        'harga',
+        'keterangan',
         'dokumen',
+        'status_id',
     ];
-    public function user(): BelongsTo
+    
+    public function pengajuan()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Pengajuan::class);
     }
-
-    public function statusPengajuan(): BelongsTo
+    public function status()
     {
-        return $this->belongsTo(StatusPengajuan::class, 'status_id', 'id');
-    }
-
-    public function penawaranHarga(): HasOne
-    {
-        return $this->hasOne(PenawaranHarga::class);
+        return $this->belongsTo(StatusPengajuan::class, 'status_id');
     }
     public function getTempUrl($path)
     {
