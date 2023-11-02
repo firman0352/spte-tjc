@@ -9,6 +9,7 @@ use App\Models\Jabatan;
 use App\Models\Role;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\QueryException;
 
 class InspekturController extends Controller
 {
@@ -67,8 +68,6 @@ class InspekturController extends Controller
      */
     public function edit(Inspektur $inspektur)
     {
-        $inspektur = $inspektur->with('user:id,name,email', 'jabatan:id,jabatan')->first();
-
         $jabatan = Jabatan::select('jabatan', 'id')->get();
 
         return view ('inspektur.edit', [
@@ -99,7 +98,14 @@ class InspekturController extends Controller
      */
     public function destroy(Inspektur $inspektur)
     {
-        $inspektur->user()->delete();
+        try {
+            $inspektur->user()->delete();
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == 1451) {
+                return redirect()->back()->with('error', 'Cannot delete inspektur because it is associated with other records.');
+            }
+        }
 
         return redirect()->route('inspektur.index')->with('success', 'Inspektur berhasil dihapus');
     }
