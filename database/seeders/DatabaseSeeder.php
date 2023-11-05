@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             StatusDokumenSeeder::class,
             StatusPengajuanSeeder::class,
             JabatanSeeder::class,
+            InspekturSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
 

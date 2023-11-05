@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Jabatan;
 use Illuminate\Http\Request;
+use App\Http\Requests;
+use Illuminate\Database\QueryException;
 
 class JabatanController extends Controller
 {
@@ -62,6 +64,15 @@ class JabatanController extends Controller
      */
     public function destroy(Jabatan $jabatan)
     {
+        try {
+            $jabatan->delete();
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == 1451) {
+                return redirect()->back()->with('error', 'Cannot delete inspektur because it is associated with other records.');
+            }
+        }
+
         $jabatan->delete();
 
         return redirect()->route('jabatan.index');

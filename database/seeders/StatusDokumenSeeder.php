@@ -14,29 +14,26 @@ class StatusDokumenSeeder extends Seeder
     {
         $status = [
             [
-                'status' => 'Belum Verifikasi',
+                'status' => 'Not Verified', // 1 = belum verif
             ],
             [
-                'status' => 'Menunggu Verifikasi',
+                'status' => 'Submitted for Verification', // 2 = menunggu verif (customer submit verif)
             ],
             [
-                'status' => 'Sudah Verifikasi',
+                'status' => 'Verified', // 3 = disetujui
             ],
             [
-                'status' => 'Ditolak',
+                'status' => 'Rejected', // 4 = ditolak
             ],
             [
-                'status' => 'Perlu Perbaikan',
+                'status' => 'Need Revision', // 5 = ditolak
             ],
             [
-                'status' => 'Dalam Proses Verifikasi',
+                'status' => 'In Verification Process', // 6 = dalam proses verif (disetujui admin)
             ],
             [
-                'status' => 'Disetujui Inspektur 1',
+                'status' => 'Approved by 1st Inspector', // 7 = disetujui inspektur 1
             ],
-            [
-                'status' => 'Disetujui Inspektur 2',
-            ]
         ];
         
         foreach ($status as $key => $value) {

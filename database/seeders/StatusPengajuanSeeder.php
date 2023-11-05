@@ -15,14 +15,20 @@ class StatusPengajuanSeeder extends Seeder
     {
         $status = [
             [
-                'status' => 'Menunggu',
+                'status' => 'Waiting for Approval',
             ],
             [
-                'status' => 'Diterima',
+                'status' => 'Approved',
             ],
             [
-                'status' => 'Ditolak',
+                'status' => 'Rejected',
             ],
+            [
+                'status' => 'Rejected With Offer',
+            ],
+            [
+                'status' => 'Offer Updated by Exporter',
+            ]
         ];
         DB::table('status_pengajuans')->insert($status);
     }

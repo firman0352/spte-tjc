@@ -14,10 +14,10 @@ class JabatanSeeder extends Seeder
     {
         $jabatan = [
             [
-                'jabatan' => 'Inspektur 1',
+                'jabatan' => '1st Inpector',
             ],
             [
-                'jabatan' => 'Inspektur 2',
+                'jabatan' => '2nd Inpector',
             ],
         ];
         foreach ($jabatan as $jabatan) {

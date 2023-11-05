@@ -5,6 +5,18 @@
         </h2>
     </x-slot>
  
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <div>
         <div class="max-w-full px-4">
             <div class="overflow-hidden bg-white shadow-sm rounded-lg">
