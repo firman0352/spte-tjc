@@ -1,12 +1,22 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+    <section x-data="edit">
+    <form id="form-update-profile" method="POST" action="{{ route('register') }}" 
+    onsubmit="return false;">
+        @csrf @method('post')
 
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        </div>
+
+        <div class="mt-4">
+            <x-input-label for="phone" :value="__('Phone')" />
+            <p id="output">Please enter a valid number below</p>
+            <x-text-input id="phone" name="phone" type="tel" class="mt-1 block w-full" :value="old('phone')" required autofocus autocomplete="phone" />
+            <input id="hidden" type="hidden" name="phone-full">
+            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
         </div>
 
         <!-- Email Address -->
@@ -45,8 +55,9 @@
             </a>
 
         </div>
-        <x-primary-button class="mt-4">
+        <x-primary-button class="mt-4" @click="submit">
             {{ __('Register') }}
         </x-primary-button>
     </form>
+    </section>
 </x-guest-layout>

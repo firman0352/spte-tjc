@@ -5,24 +5,21 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div class="">
+        <div class="max-w-full px-4">
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <form action="{{ route('admin.verifikasi.store') }}" method="POST">
                         @csrf
                         <div class="mb-4">
                             <label for="dokumen_customer_id" class="block text-gray-700 text-sm font-semibold mb-2">Select Dokumen:</label>
-                            <select name="dokumen_customer_id" id="dokumen_customer_id" class="w-full p-2 border rounded">
-                                @foreach ($dokumenCustomers as $dokumenCustomer)
-                                    <option value="{{ $dokumenCustomer->id }}">{{ $dokumenCustomer->nama_pt }}</option>
-                                @endforeach
-                            </select>
+                            <input type="hidden" name="dokumen_customer_id" value="{{ $dokumenCustomers->first()->id }}">
+                            <input type="text" name="dokumen_customer_name" id="dokumen_customer_name" class="w-full text-black p-2 border rounded" readonly value="{{ $dokumenCustomers->first()->nama_pt }}">
                         </div>
 
                         <div class="mb-4">
                             <label for="inspektur_id" class="block text-gray-700 text-sm font-semibold mb-2">Select Inspektur 1:</label>
-                            <select name="inspektur_id" id="inspektur_id" class="w-full p-2 border rounded">
+                            <select name="inspektur_id" id="inspektur_id" class="w-full text-black p-2 border rounded">
                                 @foreach ($inspektur1 as $inspektur)
                                     <option value="{{ $inspektur->id }}">{{ $inspektur->user->name }}</option>
                                 @endforeach
@@ -31,7 +28,7 @@
 
                         <div class="mb-4">
                             <label for="inspektur2_id" class="block text-gray-700 text-sm font-semibold mb-2">Select Inspektur 2:</label>
-                            <select name="inspektur2_id" id="inspektur2_id" class="w-full p-2 border rounded">
+                            <select name="inspektur2_id" id="inspektur2_id" class="w-full text-black p-2 border rounded">
                                 @foreach ($inspektur2 as $inspektur)
                                     <option value="{{ $inspektur->id }}">{{ $inspektur->user->name }}</option>
                                 @endforeach
@@ -40,7 +37,7 @@
 
                         <div class="mb-4">
                             <label for="status_id" class="block text-gray-700 text-sm font-semibold mb-2">Select Status:</label>
-                            <select name="status_id" id="status_id" class="w-full p-2 border rounded">
+                            <select name="status_id" id="status_id" class="w-full text-black p-2 border rounded">
                                 @foreach ($statusDokumens as $statusDokumen)
                                     <option value="{{ $statusDokumen->id }}">{{ $statusDokumen->status }}</option>
                                 @endforeach

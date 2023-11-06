@@ -1,4 +1,4 @@
-<nav class="bg-white border-b border-gray-100 fixed w-full top-0 left-0 flex justify-between sm:block">
+<nav class="bg-white border-b border-gray-100 fixed w-full top-0 left-0 flex justify-between sm:block  z-40">
     <!-- Primary Navigation Menu -->
     <div class="flex-1 px-4 md:px-8 sm:ml-0 mx-auto flex flex-row-reverse justify-start shadow duration-300" :class="{ 'md:ml-20': isMinimizeSidebar, 'md:ml-48': ! isMinimizeSidebar}">
         <div class="flex h-16 w-full ">

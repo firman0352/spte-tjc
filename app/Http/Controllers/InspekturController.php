@@ -11,19 +11,20 @@ use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
 
+
 class InspekturController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $inspektur = Inspektur::join('users', 'users.id', '=', 'inspekturs.user_id')
-            ->join('jabatans', 'jabatans.id', '=', 'inspekturs.jabatan_id')
-            ->select('users.name', 'users.email', 'jabatans.jabatan', 'inspekturs.*')
-            ->get();
+    {    
+        $inspekturs = Inspektur::join('users', 'users.id', '=', 'inspekturs.user_id')
+        ->join('jabatans', 'jabatans.id', '=', 'inspekturs.jabatan_id')
+        ->select('users.name', 'users.email', 'jabatans.jabatan', 'inspekturs.*')
+        ->get();
 
-        return view('inspektur.index', compact('inspektur'));
+    return view('inspektur.index', compact('inspekturs'));
     }
 
     /**
@@ -106,6 +107,7 @@ class InspekturController extends Controller
                 return redirect()->back()->with('error', 'Cannot delete inspektur because it is associated with other records.');
             }
         }
+
 
         return redirect()->route('inspektur.index')->with('success', 'Inspektur berhasil dihapus');
     }

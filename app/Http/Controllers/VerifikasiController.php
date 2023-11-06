@@ -18,11 +18,23 @@ class VerifikasiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $verifikasi = Verifikasi::with(['dokumenCustomer', 'inspektur', 'inspektur2', 'statusDokumen'])->get();
+        $statusIds = $request->query('status_ids', []); // Default to an empty array if no query parameter is provided
+
+        if(empty($statusIds)) {
+            $verifikasi = Verifikasi::with(['dokumenCustomer', 'inspektur', 'inspektur2', 'statusDokumen'])->get();
+        }
+        else {
+            $verifikasi = Verifikasi::whereIn('status_id',$statusIds)->with(['dokumenCustomer', 'inspektur', 'inspektur2', 'statusDokumen'])->get();
+        }
 
         return view('verifikasi.index', compact('verifikasi'));
+    }
+    public function history()
+    {
+        $verifikasi = DokumenCustomer::where('status_id','3')->with(['user:id,name,email,phone', 'status:id,status', 'verifikasi'])->get();
+        return view('verifikasi.history', compact('verifikasi'));
     }
 
     /**
@@ -47,7 +59,7 @@ class VerifikasiController extends Controller
     public function show(Verifikasi $verifikasi)
     {
         $verifikasi->load(['dokumenCustomer', 'inspektur', 'statusDokumen']);
-        
+
         return view('verifikasi.show', compact('verifikasi'));
     }
 
@@ -151,7 +163,7 @@ class VerifikasiController extends Controller
 
     public function showInspektur(Verifikasi $verifikasi)
     {
-        $verifikasi->load(['dokumenCustomer', 'inspektur', 'statusDokumen']);
+        $verifikasi->load(['dokumenCustomer', 'inspektur','inspektur2', 'statusDokumen']);
         
         return view('verifikasi.inspektur.show', compact('verifikasi'));
     }
