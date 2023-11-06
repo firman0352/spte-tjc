@@ -36,7 +36,7 @@ class DokumenCustomerController extends Controller
     public function create()
     {
         if (auth()->user()->DokumenCustomer) {
-            return redirect()->route('dokumen.index')->with('error', 'Anda sudah mengupload dokumen');
+            return redirect()->route('dokumen.index')->with('error', 'You have uploaded the document');
         }
 
         return view('dokumen.create');
@@ -48,14 +48,14 @@ class DokumenCustomerController extends Controller
     public function store(Request $request)
     {
         if (auth()->user()->DokumenCustomer) {
-            return redirect()->route('dokumen.index')->with('error', 'Anda sudah mengupload dokumen');
+            return redirect()->route('dokumen.index')->with('error', 'You have uploaded the document');
         }
 
         $validated = $request->validate([
             'file' => 'required|file|mimes:pdf|max:2048',
             'nama_pt' => 'required',
             'alamat_pt' => 'required',
-            'no_telp' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:9|max:17',
+            'no_telp' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:9|max:17',
         ]);
 
         $path = Storage::putFile('dokumen', $request->file('file'));
@@ -69,7 +69,7 @@ class DokumenCustomerController extends Controller
             'no_telp' => $request->no_telp,            
         ]);
 
-        return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil ditambahkan');
+        return redirect()->route('dokumen.index')->with('success', 'Document successfully added');
     }
 
     /**
@@ -78,7 +78,7 @@ class DokumenCustomerController extends Controller
     public function edit(DokumenCustomer $dokumen)
     {
         if ($dokumen->status_id != StatusDokumen::BELUM_VERIF && $dokumen->status_id != StatusDokumen::PERBAIKAN && $dokumen->status_id != StatusDokumen::DITOLAK) {
-            return redirect()->route('dokumen.index')->with('error', 'Anda tidak dapat mengubah dokumen dengan status saat ini.');
+            return redirect()->route('dokumen.index')->with('error', 'You cannot modify documents with the current status.');
         }
 
         return view('dokumen.edit', compact('dokumen'));
@@ -91,7 +91,7 @@ class DokumenCustomerController extends Controller
     {
         // Check if the current status is 1 or 4
         if ($dokumen->status_id != StatusDokumen::BELUM_VERIF && $dokumen->status_id != StatusDokumen::PERBAIKAN && $dokumen->status_id != StatusDokumen::DITOLAK) {
-            return redirect()->route('dokumen.index')->with('error', 'Anda tidak dapat mengubah dokumen dengan status saat ini.');
+            return redirect()->route('dokumen.index')->with('error', 'You cannot modify documents with the current status.');
         }
 
         // Validate the request data
@@ -115,10 +115,10 @@ class DokumenCustomerController extends Controller
             'nama_pt' => $request->nama_pt,
             'alamat_pt' => $request->alamat_pt,
             'no_telp' => $request->no_telp,
-            'status_id' => StatusDokumen::BELUM_VERIF,
+            'status_id' => StatusDokumen::PERBAIKAN,
         ]);
 
-        return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil diperbarui');
+        return redirect()->route('dokumen.index')->with('success', 'Document updated successfully');
     }
 
     /**
@@ -127,7 +127,7 @@ class DokumenCustomerController extends Controller
     public function destroy(DokumenCustomer $dokumen)
     {
         if ($dokumen->status_id != StatusDokumen::BELUM_VERIF && $dokumen->status_id != StatusDokumen::PERBAIKAN && $dokumen->status_id != StatusDokumen::DITOLAK) {
-            return redirect()->route('dokumen.index')->with('error', 'Anda tidak dapat menghapus dokumen dengan status saat ini.');
+            return redirect()->route('dokumen.index')->with('error', 'You cannot delete documents with the current status.');
         }
 
         $path = $dokumen->dokumen;
@@ -135,19 +135,19 @@ class DokumenCustomerController extends Controller
         Storage::delete($path);
         $dokumen->delete();
         
-        return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil dihapus');
+        return redirect()->route('dokumen.index')->with('success', 'Document deleted successfully');
     }
 
 ////////////////////////////////////////////////////////////////////////////////////
     public function verifikasi(DokumenCustomer $dokumen)
     {
-        if ($dokumen->status_id != StatusDokumen::BELUM_VERIF) {
-            return redirect()->route('dokumen.index')->with('error', 'Anda tidak dapat mengajukan verifikasi dokumen dengan status saat ini.');
+        if ($dokumen->status_id != StatusDokumen::BELUM_VERIF && $dokumen->status_id != StatusDokumen::PERBAIKAN) {
+            return redirect()->route('dokumen.index')->with('error', 'You cannot apply for document verification with the current status.');
         }
 
         if (!$dokumen->verifikasi) {
             $dokumen->update(['status_id' => StatusDokumen::MENUNGGU]);
-            return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil diajukan untuk verifikasi');
+            return redirect()->route('dokumen.index')->with('success', 'Documents successfully submitted for verification');
         }
 
         // Create a map of 'rejecting_inspektur' to 'status_id'
@@ -168,7 +168,7 @@ class DokumenCustomerController extends Controller
 
             $dokumen->update(['status_id' => $statusMapping[$rejectingInsp]]);
 
-            return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil diajukan untuk verifikasi ulang');
+            return redirect()->route('dokumen.index')->with('success', 'Documents successfully submitted for re-verification');
         }
 
         return redirect()->route('dokumen.index');

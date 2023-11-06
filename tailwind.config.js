@@ -24,7 +24,12 @@ export default {
                 "white-purple": "#F1F1FB",
             },
         },
+       
     },
 
-    plugins: [forms, require("daisyui")],
+    plugins: [
+        forms, 
+        require("daisyui"),
+        require('tailwindcss-plugins/pagination'),
+    ],
 };

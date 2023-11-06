@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Detail Document') }}
+            {{ __('Company Document Detail') }}
         </h2>
     </x-slot>
  
-    <div >
-        <div class="max-w-full px-4">
+    <div>
+        <div class="max-w-full px-4 xl:w-1/2">
             <div class="overflow-hidden bg-white shadow-sm rounded-lg">
                 <div class="overflow-hidden bg-white p-6">
                     <!-- Display Success Message -->
@@ -23,86 +23,98 @@
                         </div>
                     @endif
 
-                    <table>
-                        <tbody>
-                            @if ($dokumen)
-                                <tr>
-                                    <td class="label bg-gray-50 px-6 py-2">Company Name</td><td>:</td>
-                                    <td class="px-1 py-2">{{ $dokumen->nama_pt }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="label bg-gray-50 px-6 py-2">Company Address</td><td>:</td>
-                                    <td class="px-1 py-2">{{ $dokumen->alamat_pt }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="label bg-gray-50 px-6 py-2">Phone Number</td><td>:</td>
-                                    <td class="px-1 py-2">{{ $dokumen->no_telp }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="label bg-gray-50 px-6 py-2">Document</td><td>:</td>
-                                    <td class="px-1 py-2">
-                                        <a href="{{ $tempUrl }}" target="_blank" class="text-indigo-600 hover:text-indigo-900">Lihat Dokumen</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="label bg-gray-50 px-6 py-2">Tanggal Upload</td><td>:</td>
-                                    <td class="px-1 py-2">{{ $dokumen->created_at }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="label bg-gray-50 px-6 py-2">Status</td><td>:</td>
-                                    <td class="px-1 py-2">{{ $dokumen->status->status }}</td>
-                                </tr>
+                    @if ($dokumen)
+                    <div class="flex justify-between mb-4">
+                        <div>
+                            <p class="text-xs text-black">Company Name</p>
+                            <h1 class="text-md sm:text-xl text-black font-bold">{{ $dokumen->nama_pt }}</h1>
+                            <p class="text-xs text-black">Address</p>
+                            <h1 class="text-md sm:text-xl text-black font-bold">{{ $dokumen->alamat_pt }}</h1>
                                 @if($comment)
-                                    <tr>
-                                        <td class="label bg-gray-50 px-6 py-2">Comment</td><td>:</td>
-                                        <td class="px-1 py-2">{{ $comment }}</td>
-                                    </tr>
+                                <p class="text-xs text-black">Comment</p>
+                                <h1 class="text-md sm:text-xl text-red-500 font-bold">{{ $comment }}</h1>
                                 @endif
-                                <tr>
-                                    <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                                        @if ($dokumen->status_id == 1)
-                                            <form action="{{ route('dokumen.verifikasi', $dokumen) }}" method="POST" onsubmit="return confirm('Are you sure?')" style="display: inline-block;">
-                                                @csrf
-                                                @method('PUT')
-                                                <x-danger-button>
-                                                    Verifikasi Dokumen
-                                                </x-danger-button>
-                                            </form>
-                                        @endif
-                                        @if ($dokumen->status_id == 1 || $dokumen->status_id == 5 || $dokumen->status_id == 4)
-                                        <a href="{{ route('dokumen.edit', $dokumen) }}"
-                                           class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25">
-                                            Edit
-                                        </a>
-                                        <form action="{{ route('dokumen.destroy', $dokumen) }}" method="POST" onsubmit="return confirm('Are you sure?')" style="display: inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <x-danger-button>
-                                                Delete
-                                            </x-danger-button>
-                                        </form>
-                                        @endif
-                                    </td>
-                                </tr>
-                                <!-- Tambahkan field lain sesuai kebutuhan sebagai baris tambahan -->
-                            @else
-                                <tr>
-                                    <td class="label bg-gray-50 px-6 py-2" colspan="2">No document has been created</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap" colspan="2">
-                                        <a href="{{ route('dokumen.create') }}"
-                                           class="mb-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25">
-                                            Create
-                                        </a>
-                                    </td>
-                                </tr>
+                            <p class="text-xs text-black">Created Date</p>
+                            <h1 class="text-md sm:text-xl text-black font-bold">{{ $dokumen->created_at }}</h1>
+                        </div>
+                        <div class="flex flex-col items-start gap-2">
+                        <x-status-badge :status_id="$dokumen->status_id" :status="$dokumen->status->status" class="text-md sm:text-xl bg-orange-100 text-orange-800 rounded-md px-2 font-bold"/>
+                            @if ($dokumen->status_id == 1 || $dokumen->status_id == 5 || $dokumen->status_id == 4)
+                            <a href="{{ route('dokumen.edit', $dokumen) }}"
+                            class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25">
+                                Edit
+                            </a>
+                            <form action="{{ route('dokumen.destroy', $dokumen) }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="delete-button inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                    Delete
+                                </button>
+                            </form>
                             @endif
-                        </tbody>
-                    </table>
-                    
+                        </div>  
+                    </div>
+                        @if ($dokumen->status_id == 1 || $dokumen->status_id == 5)
+                        <form action="{{ route('dokumen.verifikasi', $dokumen) }}" method="POST"  style="display: inline-block;">
+                            @csrf 
+                            @method('PUT')
+                            <button type="button" class="verify-button inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25">
+                                Verify Document
+                            </button>
+                        </form>
+                        @endif
+
+                    @else
+                        <p class="label bg-gray-50 px-6 py-2 rounded-md mb-4 w-1/2">No document has been created</p>
+                        <a href="{{ route('dokumen.create') }}"
+                        class="mb-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25">
+                            Create
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('click', function (event) {
+    if (event.target.matches('.delete-button')) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This action cannot be undone!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form for deletion
+                event.target.form.submit();
+            }
+        });
+    }
+});
+
+// Add an event listener for the "Verify Document" button
+document.addEventListener('click', function (event) {
+    if (event.target.matches('.verify-button')) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This action will verify the document!',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, verify it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form for verification
+                event.target.form.submit();
+            }
+        });
+    }
+});
+    </script>
 </x-app-layout>
