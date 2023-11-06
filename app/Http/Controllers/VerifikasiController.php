@@ -207,7 +207,7 @@ class VerifikasiController extends Controller
 
     public function rejectInspektur(Request $request, Verifikasi $verifikasi)
     {
-        if (!auth()->user()->inspektur->id == $verifikasi->inspektur_id || auth()->user()->inspektur->id == $verifikasi->inspektur2_id) {
+        if (!auth()->user()->inspektur->id == $verifikasi->inspektur_id || !auth()->user()->inspektur->id == $verifikasi->inspektur2_id) {
             abort(403);
         }
 

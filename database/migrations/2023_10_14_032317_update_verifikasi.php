@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('verifikasis', function (Blueprint $table) {
             $table->after('inspektur_id', function ($table) {
-                $table->foreignUuid('inspektur2_id')->constrained('inspekturs')->cascadeOnDelete()->cascadeOnUpdate();
+                $table->foreignUuid('inspektur2_id')->constrained('inspekturs')->restrictOnDelete()->cascadeOnUpdate();
             });
             $table->string('comment')->nullable();
             $table->string('rejecting_inspektur')->nullable();
