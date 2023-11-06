@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('status_id')->constrained('status_dokumens')->restrictOnDelete()->cascadeOnUpdate();
             $table->string('nama_pt');
             $table->string('alamat_pt');
-            $table->string('no_telp');
             $table->string('dokumen');
             $table->timestamps();
         });
