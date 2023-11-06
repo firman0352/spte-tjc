@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Edit Jabatan Inspektur') }}
+            {{ __('Edit Inspector') }}
         </h2>
     </x-slot>
 
@@ -9,7 +9,7 @@
         <div class="max-w-full px-4">
             <div class="overflow-hidden bg-white shadow-sm rounded-lg">
                 <div class="overflow-hidden overflow-x-auto border-b border-gray-200 bg-white p-6">
-                    <form action="{{ route('inspektur.update', $inspektur) }}" method="POST">
+                    <form action="{{ route('inspektur.update', $inspektur) }}" method="POST" class="space-y-6">
                         @csrf
                         @method('PUT')
 
@@ -27,7 +27,7 @@
 
                         <div>
                             <x-input-label for="jabatan" value="Jabatan" />
-                            <select id="jabatan" name="jabatan" class="block mt-1 w-full">
+                            <select id="jabatan" name="jabatan" class="block mt-1 w-full text-black border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                 <option value="{{$inspektur['jabatan_id']}}" disabled selected hidden >{{$inspektur['jabatan']['jabatan']}}</option>
                                 @foreach ($jabatan as $item)
                                     <option value="{{ $item->id }}">{{ $item->jabatan }}</option>

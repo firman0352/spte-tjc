@@ -56,6 +56,8 @@ Route::middleware(['auth', 'verified','PreventBackHistory'])->group(function () 
         Route::get('/verifikasi/create/{dokumen}', [VerifikasiController::class, 'createVerifikasi'])->name('admin.verifikasi.create');
         Route::post('/verifikasi/store', [VerifikasiController::class, 'verifikasiAdmin'])->name('admin.verifikasi.store');
         Route::put('/verifikasi/tolak/{dokumen}', [VerifikasiController::class, 'tolakMenunggu'])->name('admin.verifikasi.tolak');
+        Route::get('/verifikasi/history', [VerifikasiController::class,'history'])->name('verifikasi.history');
+        Route::get('/verifikasi', [VerifikasiController::class,'index'])->name('verifikasi.index');
         Route::resource('jabatan', JabatanController::class);
         Route::resource('inspektur', InspekturController::class);
         Route::resource('verifikasi', VerifikasiController::class);

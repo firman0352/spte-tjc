@@ -12,7 +12,9 @@
         @csrf
     </form>
 
-    <form id="form" method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6 " :class="isEdit ? '' : 'hidden' "> @csrf @method('patch') 
+    <form id="form-update-profile" method="post" action="{{ route('profile.update') }}"
+    onsubmit="return false;"
+     class="mt-6 space-y-6 " :class="isEdit ? '' : 'hidden' "> @csrf @method('patch') 
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
@@ -21,10 +23,9 @@
 
         <div>
             <x-input-label for="phone" :value="__('Phone')" />
-            <p id="output">Please enter a valid number below with country code</p>
+            <p id="output">Please enter a valid number below</p>
             <x-text-input id="phone" name="phone" type="tel" class="mt-1 block w-full" :value="old('phone', $user->phone)" required autofocus autocomplete="phone" />
             <input id="hidden" type="hidden" name="phone-full">
-            <span>e.g +6282245824411, +3546113542</span>
             <x-input-error class="mt-2" :messages="$errors->get('phone')" />
         </div>
 
@@ -53,7 +54,7 @@
     </div>
 
     <div class="flex flex-col items-center gap-4">
-        <x-primary-button @click="editClose">{{ __('Save') }}</x-primary-button>
+        <x-primary-button @click="submit" >{{ __('Save') }}</x-primary-button>
     </div>
     </form>
     <div class="mt-6 space-y-6" :class="isEdit ? 'hidden' : '' ">
@@ -76,7 +77,7 @@
         </div>
     </div>
     @if (session('status') === 'profile-updated')
-        <div class="toast toast-top toast-center">
+        <div class="toast toast-top toast-center z-50">
             <div class="alert alert-success" x-data="{ show: true }" x-show="show" x-transition
                 x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600"><span>Profile has been
                     succesfully updated</span></div>
