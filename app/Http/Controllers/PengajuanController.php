@@ -20,7 +20,7 @@ class PengajuanController extends Controller
          * Get all pengajuan data for the authenticated user with their status pengajuan.
          */
         $user = auth()->user()->id;
-        $pengajuan = Pengajuan::where('user_id', $user)->with('statusPengajuan')->get();
+        $pengajuan = Pengajuan::where('user_id', $user)->with('statusPengajuan','penawaranHarga')->get();
         /**
          * Transform the $pengajuan collection by adding a temporary URL for each item's document.
          */
@@ -62,7 +62,7 @@ class PengajuanController extends Controller
             'dokumen' => $validated['dokumen']->store('pengajuan'),
         ]);
 
-        return redirect()->route('pengajuan.index')->with('success','Pengajuan berhasil dibuat');
+        return redirect()->route('pengajuan.index')->with('success','Submission successfully created');
     }
 
     /**************************************************************************
@@ -73,7 +73,7 @@ class PengajuanController extends Controller
         /**
          * Get all pengajuan data with their status pengajuan.
          */
-        $pengajuan = Pengajuan::with('statusPengajuan')->get();
+        $pengajuan = Pengajuan::with('statusPengajuan', 'penawaranHarga')->get();
         /**
          * Transform the $pengajuan collection by adding a temporary URL for each item's document.
          */
@@ -98,7 +98,6 @@ class PengajuanController extends Controller
 
         $validated = $request->validate([
             'harga' => 'required',
-            'dokumen' => 'required|file|mimes:pdf|max:2048',
         ]);
 
         $path = Storage::putFile('pengajuan', $request->file('dokumen'));
@@ -106,15 +105,14 @@ class PengajuanController extends Controller
         PenawaranHarga::create([
             'pengajuan_id' => $pengajuan->id,
             'harga' => $validated['harga'],
-            'dokumen' => $path,
             'status_id' => '1',
         ]);
 
         $pengajuan->update(['status_id' => 2]); // change status_id to Disetujui
 
-        return redirect()->route('admin.pengajuan.index')->with('success','Pengajuan berhasil disetujui');
+        return redirect()->route('admin.pengajuan.index')->with('success','Submission successfully approved');
         } else {
-            return redirect()->route('admin.pengajuan.index')->with('error','Pengajuan sudah disetujui atau ditolak');
+            return redirect()->route('admin.pengajuan.index')->with('error','Submissions have been approved or rejected');
         }
     }
 
@@ -122,9 +120,9 @@ class PengajuanController extends Controller
     {
         if ($pengajuan->status_id == 1) {
         $pengajuan->update(['status_id' => 3]); // change status_id to Ditolak
-        return redirect()->route('admin.pengajuan.index')->with('success','Pengajuan berhasil ditolak');
+        return redirect()->route('admin.pengajuan.index')->with('success','Successful submission rejected');
         } else {
-            return redirect()->route('admin.pengajuan.index')->with('error','Pengajuan sudah disetujui atau ditolak');
+            return redirect()->route('admin.pengajuan.index')->with('error','Submissions have been approved or rejected');
         }
     }
 }

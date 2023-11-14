@@ -29,7 +29,7 @@ class PenawaranHargaController extends Controller
          */
         $penawaran = PenawaranHarga::where('pengajuan_id', $pengajuan)->first();
         if ($penawaran) {
-            return redirect()->route('admin.pengajuan.index')->with('error', 'Penawaran harga sudah dibuat');
+            return redirect()->route('admin.pengajuan.index')->with('error', 'Price quotation already made');
         } 
             
         $pengajuan = Pengajuan::where('id', $pengajuan)->first();
@@ -47,7 +47,7 @@ class PenawaranHargaController extends Controller
          */
         $penawaran = PenawaranHarga::where('pengajuan_id', $pengajuan)->first();
         if ($penawaran) {
-            return redirect()->route('admin.pengajuan.index')->with('error', 'Penawaran harga sudah dibuat');
+            return redirect()->route('admin.pengajuan.index')->with('error', 'Price quotation already made');
         }
         /**
          * Validate the request.
@@ -69,7 +69,7 @@ class PenawaranHargaController extends Controller
             'dokumen' => $path,
         ]);
 
-        return redirect()->route('admin.pengajuan.index')->with('success', 'Penawaran harga berhasil dibuat');
+        return redirect()->route('admin.pengajuan.index')->with('success', 'Price quotation created successfully');
     }
 
     /**
@@ -77,10 +77,45 @@ class PenawaranHargaController extends Controller
      */
     public function show(PenawaranHarga $penawaran)
     {
-        $tempUrl = $penawaran->getTempUrl($penawaran->dokumen);
-        $penawaran['tempUrl'] = $tempUrl;
+        if($penawaran->dokumen != null){
+            $tempUrl = $penawaran->getTempUrl($penawaran->dokumen);
+            $penawaran['tempUrl'] = $tempUrl;
+        }
         
         return view('transaksi.penawaran-harga.show', compact('penawaran'));
+    }
+
+    /**
+     * Show the form for submitting final penawaran document.
+     */
+    public function finalDokumen(PenawaranHarga $penawaran)
+    {
+        if($penawaran->status_id == 2 && $penawaran->dokumen == null){
+            return view('transaksi.penawaran-harga.final-dokumen', compact('penawaran'));
+        } else {
+            abort(403, 'Price quotes have been responded to');
+        }
+    }
+
+    /**
+     * Store final penawaran document.
+     */
+    public function storeFinalDokumen(Request $request, PenawaranHarga $penawaran)
+    {
+        if($penawaran->status_id == 2 && $penawaran->dokumen == null){
+            $validated = $request->validate([
+                'dokumen' => 'required|file|mimes:pdf|max:2048',
+            ]);
+    
+            $path = Storage::putFile('dokumen', $request->file('dokumen'));
+    
+            $penawaran->dokumen = $path;
+            $penawaran->save();
+    
+            return redirect()->route('admin.pengajuan.index')->with('success', 'Price quote successfully approved');
+        } else {
+            abort(403, 'Price quotes have been responded to');
+        }
     }
 
     /**
@@ -89,7 +124,7 @@ class PenawaranHargaController extends Controller
     public function edit(PenawaranHarga $penawaran)
     {
         if($penawaran->status_id != 4) {
-            abort(403, 'Penawaran harga sudah ditanggapi');
+            abort(403, 'Price quotes have been responded to');
         }
 
         return view('transaksi.penawaran-harga.edit', compact('penawaran'));
@@ -97,12 +132,11 @@ class PenawaranHargaController extends Controller
     public function update(Request $request, PenawaranHarga $penawaran)
     {
         if($penawaran->status_id != 4) {
-            abort(403, 'Penawaran harga sudah ditanggapi');
+            abort(403, 'Price quotes have been responded to');
         }
 
         $validated = $request->validate([
             'harga' => 'required',
-            'dokumen' => 'required|file|mimes:pdf|max:2048',
         ]);
 
         $path = Storage::putFile('penawaran', $request->file('dokumen'));
@@ -112,7 +146,7 @@ class PenawaranHargaController extends Controller
         $penawaran->status_id = 5;
         $penawaran->save();
 
-        return redirect()->route('admin.pengajuan.index')->with('success', 'Penawaran harga berhasil diubah');
+        return redirect()->route('admin.pengajuan.index')->with('success', 'Price quote successfully modified');
     }
 
 
@@ -122,13 +156,13 @@ class PenawaranHargaController extends Controller
     public function approve(PenawaranHarga $penawaran)
     {
         if($penawaran->status_id != 1 && $penawaran->status_id != 5) {
-            return redirect()->route('pengajuan.index')->with('error', 'Penawaran harga sudah ditanggapi');
+            return redirect()->route('pengajuan.index')->with('error', 'Price quotation has been responded to');
         }
         $penawaran->status_id = 2;
         $penawaran->save();
         $penawaran->keterangan = null;
 
-        return redirect()->route('pengajuan.index')->with('success', 'Penawaran harga berhasil disetujui');
+        return redirect()->route('pengajuan.index')->with('success', 'Price quote successfully approved');
     }
 
     /**
@@ -137,29 +171,41 @@ class PenawaranHargaController extends Controller
     public function reject(PenawaranHarga $penawaran, Request $request)
     {
         if($penawaran->status_id != 1 && $penawaran->status_id != 5) {
-            abort(403, 'Penawaran harga sudah ditanggapi');
+            abort(403, 'Price quotation has been responded to');
         }
-        if($request->keterangan == '') {
-            $penawaran->status_id = 3;
-        } else {
-            $penawaran->status_id = 4;
-            $penawaran->keterangan = $request->keterangan;
-        }
-
+        
+        $penawaran->status_id = 3;
         $penawaran->save();
 
-        return redirect()->route('pengajuan.index')->with('success', 'Penawaran harga berhasil ditolak');
+        return redirect()->route('pengajuan.index')->with('success', 'Successfully rejected price quote');
+    }
+
+    public function negotiate(PenawaranHarga $penawaran, Request $request)
+    {
+        if($penawaran->status_id != 1 && $penawaran->status_id != 5) {
+            abort(403, 'Price quotation has been responded to');
+        }
+
+        $validated = $request->validate([
+            'keterangan' => 'required',
+        ]);
+
+        $penawaran->keterangan = $validated['keterangan'];
+        $penawaran->status_id = 4;
+        $penawaran->save();
+
+        return redirect()->route('pengajuan.index')->with('success', 'Price quote successfully negotiated');
     }
 
     public function rejectAdmin(PenawaranHarga $penawaran, Request $request)
     {
         if($penawaran->status_id != 4) {
-            abort(403, 'Penawaran harga sudah ditanggapi');
+            abort(403, 'Price quotes have been responded to');
         }
 
         $penawaran->status_id = 3;
         $penawaran->save();
 
-        return redirect()->route('admin.pengajuan.index')->with('success', 'Penawaran harga berhasil ditolak');
+        return redirect()->route('admin.pengajuan.index')->with('success', 'Successfully rejected price quote');
     }
 }

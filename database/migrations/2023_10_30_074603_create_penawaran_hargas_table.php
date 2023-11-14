@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('status_id')->references('id')->on('status_pengajuans')->onDelete('restrict')->onUpdate('cascade');
             $table->string('harga');
             $table->string('keterangan')->nullable();
-            $table->string('dokumen');
+            $table->string('dokumen')->nullable();
             $table->timestamps();
         });
     }

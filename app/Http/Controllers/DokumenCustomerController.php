@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\DokumenCustomer;
 use App\Models\StatusDokumen;
+use App\Models\StatusLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,7 +29,9 @@ class DokumenCustomerController extends Controller
 
         $comment = optional($dokumen->verifikasi)->comment;
 
-        return view('dokumen.index', compact('dokumen', 'tempUrl', 'comment'));
+        $statusLogs = $dokumen->statusLogs()->with('status', 'user')->get();
+
+        return view('dokumen.index', compact('dokumen', 'tempUrl', 'comment', 'statusLogs'));
     }
 
     /**
@@ -38,6 +42,7 @@ class DokumenCustomerController extends Controller
         if (auth()->user()->DokumenCustomer) {
             return redirect()->route('dokumen.index')->with('error', 'You have uploaded the document');
         }
+
 
         return view('dokumen.create');
     }
@@ -114,6 +119,12 @@ class DokumenCustomerController extends Controller
             'status_id' => StatusDokumen::PERBAIKAN,
         ]);
 
+        StatusLog::create([
+            'dokumen_customer_id' => $dokumen->id,
+            'status_id' => StatusDokumen::PERBAIKAN,
+            'user_id' => auth()->user()->id,
+        ]);
+
         return redirect()->route('dokumen.index')->with('success', 'Document updated successfully');
     }
 
@@ -143,6 +154,11 @@ class DokumenCustomerController extends Controller
 
         if (!$dokumen->verifikasi) {
             $dokumen->update(['status_id' => StatusDokumen::MENUNGGU]);
+            StatusLog::create([
+                'dokumen_customer_id' => $dokumen->id,
+                'status_id' => StatusDokumen::MENUNGGU,
+                'user_id' => auth()->user()->id,
+            ]);
             return redirect()->route('dokumen.index')->with('success', 'Documents successfully submitted for verification');
         }
 
@@ -163,7 +179,11 @@ class DokumenCustomerController extends Controller
             ]);
 
             $dokumen->update(['status_id' => $statusMapping[$rejectingInsp]]);
-
+            StatusLog::create([
+                'dokumen_customer_id' => $dokumen->id,
+                'status_id' => $statusMapping[$rejectingInsp],
+                'user_id' => auth()->user()->id,
+            ]);
             return redirect()->route('dokumen.index')->with('success', 'Documents successfully submitted for re-verification');
         }
 

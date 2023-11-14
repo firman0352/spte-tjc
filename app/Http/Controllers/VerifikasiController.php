@@ -9,6 +9,7 @@ use App\Models\DokumenCustomer;
 use App\Models\Inspektur;
 use App\Models\StatusDokumen;
 use App\Models\User;
+use App\Models\StatusLog;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Validated;
@@ -123,6 +124,11 @@ class VerifikasiController extends Controller
             'status_id' => '6',
             'tanggal_mulai' => Carbon::now(),
         ]));
+        StatusLog::create([
+            'dokumen_customer_id' => $request->input('dokumen_customer_id'),
+            'status_id' => '6',
+            'user_id' => auth()->user()->id,
+        ]);
 
         DokumenCustomer::where('id', $request->input('dokumen_customer_id'))->update([
             'status_id' => '6',
@@ -135,6 +141,12 @@ class VerifikasiController extends Controller
     {
         DokumenCustomer::where('id', $dokumen)->update([
             'status_id' => '4',
+        ]);
+
+        StatusLog::create([
+            'dokumen_customer_id' => $dokumen,
+            'status_id' => '4',
+            'user_id' => auth()->user()->id,
         ]);
 
         return redirect()->route('admin.verifikasi.menunggu');
@@ -183,6 +195,11 @@ class VerifikasiController extends Controller
                 $dokumenCustomer = $verifikasi->dokumenCustomer;
                 $dokumenCustomer->status_id = 7;
                 $dokumenCustomer->save();
+                StatusLog::create([
+                    'dokumen_customer_id' => $verifikasi->dokumen_customer_id,
+                    'status_id' => 7,
+                    'user_id' => auth()->user()->id,
+                ]);
             } else {
                 abort(403);
             }
@@ -193,10 +210,14 @@ class VerifikasiController extends Controller
                     'tanggal_selesai' => Carbon::now(),
                 ]);
     
-
                 $dokumenCustomer = $verifikasi->dokumenCustomer;
                 $dokumenCustomer->status_id = 3;
                 $dokumenCustomer->save();
+                StatusLog::create([
+                    'dokumen_customer_id' => $verifikasi->dokumen_customer_id,
+                    'status_id' => 3,
+                    'user_id' => auth()->user()->id,
+                ]);
             } else {
                 abort(403);
             }
@@ -227,6 +248,12 @@ class VerifikasiController extends Controller
 
         $verifikasi->dokumenCustomer->update([
             'status_id' => 4,
+        ]);
+
+        StatusLog::create([
+            'dokumen_customer_id' => $verifikasi->dokumen_customer_id,
+            'status_id' => 4,
+            'user_id' => auth()->user()->id,
         ]);
 
         return redirect()->route('inspektur.verifikasi.index');
