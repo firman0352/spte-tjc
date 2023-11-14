@@ -6,13 +6,21 @@
     </x-slot>
     <div class="container max-w-full">
         <div class="max-w-full px-4">
-            <div class="bg-white overflow-hidden shadow-sm rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                    <br>
-                    {{ __('Welcome') }} {{ Auth::user()->name }}
-                </div>
-            </div>
+            @if (auth()->user()->roleName() == 'admin')
+                @include('dashboard.admin', [
+                    'totalUsers' => $totalUsers,
+                    'totalDokumenCustomers' => $totalDokumenCustomers,
+                    'totalInspector' => $totalInspector,
+                ])
+            @elseif (auth()->user()->roleName() == 'inspektur')
+                @include('dashboard.inspector', [
+                    'needVerification1' => $needVerification1,
+                    'needVerification2' => $needVerification2,
+                ])
+            @elseif (auth()->user()->roleName() == 'customer')
+                @include('dashboard.customer')
+            @endif
         </div>
     </div>
 </x-app-layout>
+

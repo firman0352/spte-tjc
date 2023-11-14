@@ -5,14 +5,15 @@
         </h2>
     </x-slot>
 
-    <div class="max-w-full px-4">
+    <div class="max-w-full px-4 w-1/2">
         <div class="overflow-hidden bg-white shadow-sm rounded-lg">
             <div class="overflow-hidden overflow-x-auto border-b border-gray-200 bg-white p-6">
-                <form action="{{ route('admin.pengajuan.approve', $pengajuan->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.pengajuan.approve', $pengajuan->id) }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('POST')
 
-                    <x-input-label for="harga" value="Harga" />
+                    <x-input-label for="harga" value="Price per Tons" />
                     <x-text-input id="harga" name="harga" type="text" class="block mt-1 w-full" />
                     <x-input-error :messages="$errors->get('harga')" class="mt-2" />
 
@@ -30,9 +31,9 @@
                 <form method="POST" action="{{ route('admin.pengajuan.reject', $pengajuan->id) }}">
                     @csrf
                     @method('PATCH')
-                    <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-150 ease-in-out">
+                    <x-danger-button class="justify-center mt-1 w-full">
                         Reject
-                    </button>
+                    </x-danger-button>
                 </form>
             </div>
         </div>

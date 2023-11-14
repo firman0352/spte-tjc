@@ -55,6 +55,11 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function statusLogs()
+    {
+        return $this->hasMany(StatusLog::class);
+    }
+
     public function inspektur(): HasOne
     {
         return $this->hasOne(Inspektur::class);

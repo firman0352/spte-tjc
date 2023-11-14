@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('verifikasis', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('dokumen_customer_id')->constrained('dokumen_customers')->restrictOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('dokumen_customer_id')->constrained('dokumen_customers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('inspektur_id')->constrained('inspekturs')->restrictOnDelete()->cascadeOnUpdate();
             $table->foreignId('status_id')->constrained('status_dokumens')->restrictOnDelete()->cascadeOnUpdate();
             $table->date('tanggal_mulai');

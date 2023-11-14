@@ -5,21 +5,23 @@
         </h2>
     </x-slot>
 
-    <div >
+    <div>
         <div class="max-w-full px-4">
             <div class="overflow-hidden bg-white shadow-sm rounded-lg">
                 <div class="overflow-hidden overflow-x-auto border-b border-gray-200 bg-white p-6">
                     <form action="{{ route('dokumen.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        
+
                         <div>
                             <x-input-label for="nama_pt" value="Company Name" />
-                            <x-text-input id="nama_pt" name="nama_pt" value="{{ old('nama_pt') }}" type="text" class="block mt-1 w-full" />
+                            <x-text-input id="nama_pt" name="nama_pt" value="{{ old('nama_pt') }}" type="text"
+                                class="block mt-1 w-full" />
                             <x-input-error :messages="$errors->get('nama_pt')" class="mt-2" />
                         </div>
                         <div>
                             <x-input-label for="alamat_pt" value="Company Address" />
-                            <x-text-input id="alamat_pt" name="alamat_pt" value="{{ old('alamat_pt') }}" type="text" class="block mt-1 w-full" />
+                            <x-text-input id="alamat_pt" name="alamat_pt" value="{{ old('alamat_pt') }}" type="text"
+                                class="block mt-1 w-full" />
                             <x-input-error :messages="$errors->get('alamat_pt')" class="mt-2" />
                         </div>
                         <div>

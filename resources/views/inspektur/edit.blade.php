@@ -15,27 +15,30 @@
 
                         <div>
                             <x-input-label for="name" value="Name" />
-                            <x-text-input readonly id="name" name="name" value="{{ $inspektur['user']['name'] }}" type="text" class="block mt-1 w-full" />
+                            <x-text-input readonly id="name" name="name"
+                                value="{{ $inspektur['user']['name'] }}" type="text" class="block mt-1 w-full" />
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
 
                         <div>
                             <x-input-label for="email" value="Email" />
-                            <x-text-input readonly id="email" name="email" value="{{ $inspektur['user']['email'] }}" type="text" class="block mt-1 w-full" />
+                            <x-text-input readonly id="email" name="email"
+                                value="{{ $inspektur['user']['email'] }}" type="text" class="block mt-1 w-full" />
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
 
                         <div>
-                            <x-input-label for="jabatan" value="Jabatan" />
-                            <select id="jabatan" name="jabatan" class="block mt-1 w-full text-black border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                                <option value="{{$inspektur['jabatan_id']}}" disabled selected hidden >{{$inspektur['jabatan']['jabatan']}}</option>
+                            <x-input-label for="jabatan" value="Position" />
+                            <select id="jabatan" name="jabatan"
+                                class="block mt-1 w-full text-black border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <option value="{{ $inspektur['jabatan_id'] }}" disabled selected hidden>
+                                    {{ $inspektur['jabatan']['jabatan'] }}</option>
                                 @foreach ($jabatan as $item)
                                     <option value="{{ $item->id }}">{{ $item->jabatan }}</option>
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('jabatan')" class="mt-2" />
                         </div>
-
 
                         <div class="mt-4">
                             <x-primary-button>
