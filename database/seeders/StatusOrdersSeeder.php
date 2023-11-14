@@ -19,6 +19,7 @@ class StatusOrdersSeeder extends Seeder
             'First Term Payment Received with Invoice',
             'Product In Production',
             'Production Completed',
+            'Product Test Lab Document Sent',
             'Second Term Payment Submitted',
             'Second Term Payment Received with Invoice',
             'Freight Documents Sent',

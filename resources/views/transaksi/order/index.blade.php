@@ -131,6 +131,8 @@
                                                         </a>
                                                     @endif
                                                 @endadmin
+                                                @break
+                                            @case(7)
                                                 @customer
                                                     @if($p->progress->lab_test_document != null)
                                                     <a href="{{ route('orders.upload-2nd-term', $p->id) }}" class="inline-flex items-center rounded-md border border-blue-300 bg-blue-100 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-blue-700 shadow-sm transition duration-150 ease-in-out hover-bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-25">
@@ -138,15 +140,15 @@
                                                     </a>
                                                     @endif
                                                 @endcustomer
-                                                @break
-                                            @case(7)
+                                            @break
+                                            @case(8)
                                                 @admin
                                                     <a href="{{ route('admin.orders.upload-2nd-invoice', $p->id) }}" class="inline-flex items-center rounded-md border border-green-300 bg-green-100 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-green-700 shadow-sm transition duration-150 ease-in-out hover-bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-25">
                                                         Upload 2nd Term Invoice
                                                     </a>
                                                 @endadmin
                                                 @break
-                                            @case(8)
+                                            @case(9)
                                                 @admin
                                                     <a href="{{ route('admin.orders.upload-packing', $p->id) }}" class="inline-flex items-center rounded-md border border-green-300 bg-green-100 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-green-700 shadow-sm transition duration-150 ease-in-out hover-bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-25">
                                                         Upload Product Packing Images
@@ -156,21 +158,21 @@
                                                     </a>
                                                 @endadmin
                                                 @break
-                                            @case(9)
+                                            @case(10)
                                                 @customer
                                                     <a href="{{ route('orders.upload-3rd-term', $p->id) }}" class="inline-flex items-center rounded-md border border-green-300 bg-green-100 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-green-700 shadow-sm transition duration-150 ease-in-out hover-bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-25">
                                                         Upload 3rd Term Payment Proof
                                                     </a>
                                                 @endcustomer
                                                 @break
-                                            @case(10)
+                                            @case(11)
                                                 @admin
                                                     <a href="{{ route('admin.orders.upload-3rd-invoice', $p->id) }}" class="inline-flex items-center rounded-md border border-green-300 bg-green-100 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-green-700 shadow-sm transition duration-150 ease-in-out hover-bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-25">
                                                         Upload 3rd Term Invoice
                                                     </a>
                                                 @endadmin
                                                 @break
-                                            @case(11)
+                                            @case(12)
                                                 @admin
                                                     <a href="{{ route('admin.orders.upload-container', $p->id) }}" class="inline-flex items-center rounded-md border border-green-300 bg-green-100 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-green-700 shadow-sm transition duration-150 ease-in-out hover-bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-25">
                                                         Upload Product Container Images
@@ -180,14 +182,14 @@
                                                     </a>
                                                 @endadmin
                                                 @break
-                                            @case(12)
+                                            @case(13)
                                                 @admin
                                                     <a href="{{ route('admin.orders.update-arrived', $p->id) }}" class="inline-flex items-center rounded-md border border-green-300 bg-green-100 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-green-700 shadow-sm transition duration-150 ease-in-out hover-bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-25">
                                                         Update Status to Arrived
                                                     </a>
                                                 @endadmin
                                                 @break
-                                            @case(13)
+                                            @case(14)
                                                 @customer
                                                     <a href="{{ route('orders.update-completed', $p->id) }}" class="inline-flex items-center rounded-md border border-green-300 bg-green-100 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-green-700 shadow-sm transition duration-150 ease-in-out hover-bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-25">
                                                         Complete the Transaction
