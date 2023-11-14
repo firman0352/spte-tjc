@@ -27,6 +27,12 @@ class PenawaranHarga extends Model
     {
         return $this->belongsTo(StatusPengajuan::class, 'status_id');
     }
+
+    public function Orders()
+    {
+        return $this->hasOne(Orders::class);
+    }
+    
     public function getTempUrl($path)
     {
         $url = Storage::temporaryUrl(

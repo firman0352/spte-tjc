@@ -52,14 +52,14 @@ class PengajuanController extends Controller
             'dokumen' => 'required|file|mimes:pdf|max:2048',
         ]);
 
-        $path = Storage::putFile('dokumen', $request->file('dokumen'));
+        $path = Storage::putFile('pengajuan', $request->file('dokumen'));
 
         $pengajuan = Pengajuan::create([
             'user_id' => auth()->id(),
             'status_id' => '1', // (Menunggu)
             'nama_produk' => $validated['nama_produk'],
             'jumlah' => $validated['jumlah'],
-            'dokumen' => $validated['dokumen']->store('dokumen'),
+            'dokumen' => $validated['dokumen']->store('pengajuan'),
         ]);
 
         return redirect()->route('pengajuan.index')->with('success','Submission successfully created');
@@ -99,6 +99,8 @@ class PengajuanController extends Controller
         $validated = $request->validate([
             'harga' => 'required',
         ]);
+
+        $path = Storage::putFile('pengajuan', $request->file('dokumen'));
 
         PenawaranHarga::create([
             'pengajuan_id' => $pengajuan->id,

@@ -18,7 +18,6 @@ class DokumenCustomer extends Model
         'status_id',
         'nama_pt',
         'alamat_pt',
-        'no_telp'
     ];
 
     public function user(): BelongsTo
