@@ -345,17 +345,22 @@ class OrdersController extends Controller
         $validated = $request->validate([
             'lab_test_document' => 'required|file|mimes:pdf|max:2048',
         ]);
-        
-        $orders->progress->update([
-            'lab_test_document' => $request->file('lab_test_document')->store('lab_test'),
-        ]);
+        DB::transaction(function () use ($orders, $request) {
+            $orders->progress->update([
+                'lab_test_document' => $request->file('lab_test_document')->store('lab_test'),
+            ]);
+
+            $orders->update([
+                'status_order_id' => OrdersStatus::TEST_LAB_SENT,
+            ]);
+        });
 
         return redirect()->route('admin.orders.index')->with('success', 'Lab test document berhasil diupload');
     }
     
     public function uploadPembayaranTerm2(Orders $orders)
     {
-        if ($orders->status_order_id != OrdersStatus::PRODUCTION_COMPLETED || !$orders->progress->lab_test_document) {
+        if ($orders->status_order_id != OrdersStatus::TEST_LAB_SENT || !$orders->progress->lab_test_document) {
             return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
         }
 
@@ -367,7 +372,7 @@ class OrdersController extends Controller
     }
     public function updatePembayaranTerm2(Orders $orders, Request $request)
     {
-        if ($orders->status_order_id != OrdersStatus::PRODUCTION_COMPLETED || !$orders->progress->lab_test_document) {
+        if ($orders->status_order_id != OrdersStatus::TEST_LAB_SENT || !$orders->progress->lab_test_document) {
             return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
         }
 

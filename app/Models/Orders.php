@@ -16,6 +16,23 @@ class Orders extends Model
         'status_order_id',
     ];
 
+    protected static function booted()
+    {
+        static::created(function ($order) {
+            $order->logs()->create([
+                'status_order_id' => $order->status_order_id,
+                'user_id' => $order->user_id,
+            ]);
+        });
+
+        static::updated(function ($order) {
+            $order->logs()->create([
+                'status_order_id' => $order->status_order_id,
+                'user_id' => $order->user_id,
+            ]);
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -44,5 +61,10 @@ class Orders extends Model
     public function progress()
     {
         return $this->hasOne(Progress::class, 'order_id', 'id');
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(OrdersLogs::class, 'order_id', 'id');
     }
 }
