@@ -31,6 +31,11 @@ class DokumenCustomer extends Model
         return $this->belongsTo(StatusDokumen::class);
     }
 
+    public function statusLogs()
+    {
+        return $this->hasMany(StatusLog::class);
+    }
+    
     public function verifikasi(): HasOne
     {
         return $this->hasOne(Verifikasi::class);

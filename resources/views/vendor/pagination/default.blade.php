@@ -1,9 +1,9 @@
 <div class="flex justify-end">
-    <nav role="navigation" aria-label="{{ ('Pagination Navigation') }}">
+    <nav role="navigation" aria-label="{{ 'Pagination Navigation' }}">
         <ul class="flex space-x-2">
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())
-                <li aria-disabled="true" aria-label="{{ ('pagination.previous') }}">
+                <li aria-disabled="true" aria-label="{{ 'pagination.previous' }}">
                     <span class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-600">
                         @lang('pagination.previous')
                     </span>
@@ -11,7 +11,7 @@
             @else
                 <li>
                     <a href="{{ $paginator->previousPageUrl() }}" rel="prev"
-                       class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500 text-white">
+                        class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500 text-white">
                         @lang('pagination.previous')
                     </a>
                 </li>
@@ -21,7 +21,7 @@
             @if ($paginator->hasMorePages())
                 <li>
                     <a href="{{ $paginator->nextPageUrl() }}" rel="next"
-                       class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500 text-white">
+                        class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500 text-white">
                         @lang('pagination.next')
                     </a>
                 </li>

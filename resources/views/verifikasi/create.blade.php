@@ -12,13 +12,18 @@
                     <form action="{{ route('admin.verifikasi.store') }}" method="POST">
                         @csrf
                         <div class="mb-4">
-                            <label for="dokumen_customer_id" class="block text-gray-700 text-sm font-semibold mb-2">Select Dokumen:</label>
-                            <input type="hidden" name="dokumen_customer_id" value="{{ $dokumenCustomers->first()->id }}">
-                            <input type="text" name="dokumen_customer_name" id="dokumen_customer_name" class="w-full text-black p-2 border rounded" readonly value="{{ $dokumenCustomers->first()->nama_pt }}">
+                            <label for="dokumen_customer_id"
+                                class="block text-gray-700 text-sm font-semibold mb-2">Select Dokumen:</label>
+                            <input type="hidden" name="dokumen_customer_id"
+                                value="{{ $dokumenCustomers->first()->id }}">
+                            <input type="text" name="dokumen_customer_name" id="dokumen_customer_name"
+                                class="w-full text-black p-2 border rounded" readonly
+                                value="{{ $dokumenCustomers->first()->nama_pt }}">
                         </div>
 
                         <div class="mb-4">
-                            <label for="inspektur_id" class="block text-gray-700 text-sm font-semibold mb-2">Select Inspektur 1:</label>
+                            <label for="inspektur_id" class="block text-gray-700 text-sm font-semibold mb-2">Select
+                                Inspector 1:</label>
                             <select name="inspektur_id" id="inspektur_id" class="w-full text-black p-2 border rounded">
                                 @foreach ($inspektur1 as $inspektur)
                                     <option value="{{ $inspektur->id }}">{{ $inspektur->user->name }}</option>
@@ -27,8 +32,10 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="inspektur2_id" class="block text-gray-700 text-sm font-semibold mb-2">Select Inspektur 2:</label>
-                            <select name="inspektur2_id" id="inspektur2_id" class="w-full text-black p-2 border rounded">
+                            <label for="inspektur2_id" class="block text-gray-700 text-sm font-semibold mb-2">Select
+                                Inspector 2:</label>
+                            <select name="inspektur2_id" id="inspektur2_id"
+                                class="w-full text-black p-2 border rounded">
                                 @foreach ($inspektur2 as $inspektur)
                                     <option value="{{ $inspektur->id }}">{{ $inspektur->user->name }}</option>
                                 @endforeach
@@ -36,7 +43,8 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="status_id" class="block text-gray-700 text-sm font-semibold mb-2">Select Status:</label>
+                            <label for="status_id" class="block text-gray-700 text-sm font-semibold mb-2">Select
+                                Status:</label>
                             <select name="status_id" id="status_id" class="w-full text-black p-2 border rounded">
                                 @foreach ($statusDokumens as $statusDokumen)
                                     <option value="{{ $statusDokumen->id }}">{{ $statusDokumen->status }}</option>
@@ -45,7 +53,9 @@
                         </div>
 
                         <div>
-                            <button type="submit" class="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 transition duration-150 ease-in-out">Create Verification</button>
+                            <button type="submit"
+                                class="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 transition duration-150 ease-in-out">Create
+                                Verification</button>
                         </div>
                     </form>
                 </div>

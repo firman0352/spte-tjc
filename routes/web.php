@@ -7,6 +7,7 @@ use App\Http\Controllers\DokumenCustomerController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\PenawaranHargaController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +45,7 @@ Route::middleware(['auth', 'verified','PreventBackHistory'])->group(function () 
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('customer.dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'customerDashboard'])->name('customer.dashboard');
         Route::put('/dokumen/verifikasi/{dokumen}', [DokumenCustomerController::class, 'verifikasi'])->name('dokumen.verifikasi');
         Route::resource('dokumen', DokumenCustomerController::class)->parameters([
             'dokumen' => 'dokumen' //mencegah parameter dokumen menjadi dokuman
@@ -56,6 +58,7 @@ Route::middleware(['auth', 'verified','PreventBackHistory'])->group(function () 
             Route::get('/penawaran-harga/show/{penawaran}', [PenawaranHargaController::class, 'show'])->name('penawaran-harga.show');
             Route::patch('/penawaran-harga/approve/{penawaran}', [PenawaranHargaController::class, 'approve'])->name('penawaran-harga.approve');
             Route::patch('/penawaran-harga/reject/{penawaran}', [PenawaranHargaController::class, 'reject'])->name('penawaran-harga.reject');
+            Route::patch('/penawaran-harga/negotiate/{penawaran}', [PenawaranHargaController::class, 'negotiate'])->name('penawaran-harga.negotiate');
         });
     });
 
@@ -63,9 +66,9 @@ Route::middleware(['auth', 'verified','PreventBackHistory'])->group(function () 
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('admin.dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
         Route::group([''], function () {
             Route::get('/pengajuan', [PengajuanController::class, 'indexAdmin'])->name('admin.pengajuan.index');
-            Route::get('/pengajuan/show/{pengajuan}', [PengajuanController::class, 'show'])->name('admin.pengajuan.show');
             Route::post('/pengajuan/approve/{pengajuan}', [PengajuanController::class, 'approve'])->name('admin.pengajuan.approve');
             Route::patch('/pengajuan/tolak/{pengajuan}', [PengajuanController::class, 'reject'])->name('admin.pengajuan.reject');
             Route::get('/pengajuan/process/{pengajuan}', [PengajuanController::class, 'reviewPengajuan'])->name('admin.pengajuan.process');
@@ -76,6 +79,8 @@ Route::middleware(['auth', 'verified','PreventBackHistory'])->group(function () 
             Route::patch('/penawaran-harga/reject/{penawaran}', [PenawaranHargaController::class, 'rejectAdmin'])->name('admin.penawaran-harga.reject');
             Route::get('/penawaran-harga/edit/{penawaran}', [PenawaranHargaController::class, 'edit'])->name('admin.penawaran-harga.edit');
             Route::patch('/penawaran-harga/update/{penawaran}', [PenawaranHargaController::class, 'update'])->name('admin.penawaran-harga.update');
+            Route::get('/penawaran-harga/final/{penawaran}', [PenawaranHargaController::class, 'finalDokumen'])->name('admin.penawaran-harga.final');
+            Route::patch('/penawaran-harga/final/{penawaran}', [PenawaranHargaController::class, 'storeFinalDokumen'])->name('admin.penawaran-harga.final.store');
         });
         Route::group([''], function () {
             Route::get('/verifikasi/menunggu', [VerifikasiController::class, 'menungguVerifikasi'])->name('admin.verifikasi.menunggu');
@@ -94,6 +99,7 @@ Route::middleware(['auth', 'verified','PreventBackHistory'])->group(function () 
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('inspektur.dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'inspekturDashboard'])->name('inspektur.dashboard');
         Route::get('/verifikasi', [VerifikasiController::class, 'indexInspektur'])->name('inspektur.verifikasi.index');
         Route::get('/verifikasi/show/{verifikasi}', [VerifikasiController::class, 'showInspektur'])->name('inspektur.verifikasi.show');
         Route::patch('/verifikasi/{verifikasi}', [VerifikasiController::class, 'approveInspektur'])->name('inspektur.verifikasi.approve');
