@@ -59,7 +59,7 @@ class PenawaranHargaController extends Controller
         /**
          * Store the file in s3 storage.
          */
-        $path = Storage::putFile('dokumen', $request->file('dokumen'));
+        $path = Storage::putFile('penawaran', $request->file('dokumen'));
         /**
          * Create a new penawaran harga.
          */
@@ -105,7 +105,7 @@ class PenawaranHargaController extends Controller
             'dokumen' => 'required|file|mimes:pdf|max:2048',
         ]);
 
-        $path = Storage::putFile('dokumen', $request->file('dokumen'));
+        $path = Storage::putFile('penawaran', $request->file('dokumen'));
 
         $penawaran->dokumen = $path;
         $penawaran->harga = $validated['harga'];

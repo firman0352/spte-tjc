@@ -84,6 +84,13 @@
                                                 Show Penawaran Harga
                                             </a>
                                         @endif
+                                        @if ($p->PenawaranHarga)
+                                            @if ($p->PenawaranHarga->status_id == 2)
+                                                <a href="{{ route('admin.orders.create', $p->PenawaranHarga->id) }}" class="inline-flex items-center rounded-md border border-blue-300 bg-blue-100 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-blue-700 shadow-sm transition duration-150 ease-in-out hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-25">
+                                                    Process Order
+                                                </a>
+                                            @endif
+                                        @endif
                                         </td>
                                     </tr>
                                 @endforeach

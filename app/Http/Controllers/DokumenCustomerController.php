@@ -55,7 +55,6 @@ class DokumenCustomerController extends Controller
             'file' => 'required|file|mimes:pdf|max:2048',
             'nama_pt' => 'required',
             'alamat_pt' => 'required',
-            'no_telp' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:9|max:17',
         ]);
 
         $path = Storage::putFile('dokumen', $request->file('file'));
@@ -65,8 +64,7 @@ class DokumenCustomerController extends Controller
             'user_id' => auth()->user()->id,
             'status_id' => StatusDokumen::BELUM_VERIF,
             'nama_pt' => $request->nama_pt,
-            'alamat_pt' => $request->alamat_pt,
-            'no_telp' => $request->no_telp,            
+            'alamat_pt' => $request->alamat_pt,         
         ]);
 
         return redirect()->route('dokumen.index')->with('success', 'Document successfully added');
@@ -99,7 +97,6 @@ class DokumenCustomerController extends Controller
             'file' => 'sometimes|file|mimes:pdf|max:2048', // Allow file update, but not required
             'nama_pt' => 'required',
             'alamat_pt' => 'required',
-            'no_telp' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:9|max:17',
         ]);
 
         // Update the document fields if they are provided in the request
@@ -114,7 +111,6 @@ class DokumenCustomerController extends Controller
         $dokumen->update([
             'nama_pt' => $request->nama_pt,
             'alamat_pt' => $request->alamat_pt,
-            'no_telp' => $request->no_telp,
             'status_id' => StatusDokumen::PERBAIKAN,
         ]);
 
