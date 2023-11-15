@@ -18,9 +18,16 @@ class OrdersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Orders::with('penawaran.pengajuan', 'user.dokumencustomer')->get();
+        $statusIds = $request->query('status_ids', []); // Default to an empty array if no query parameter is provided
+
+        if(empty($statusIds)) {
+            $orders = Orders::with('penawaran.pengajuan', 'user.dokumencustomer')->get();
+        }
+        else {
+            $orders = Orders::whereIn('status_order_id',$statusIds)->with('penawaran.pengajuan', 'user.dokumencustomer')->get();
+        }
         return view('transaksi.order.index', compact('orders'));
     }
 
@@ -33,9 +40,9 @@ class OrdersController extends Controller
         $penawaran = PenawaranHarga::find($penawaran);
 
         if ($order) {
-            return redirect()->route('admin.pengajuan.index')->with('error', 'Order sudah dibuat');
+            return redirect()->route('admin.pengajuan.index')->with('error', 'Order has been created');
         } elseif ($penawaran->status_id != 2 || $penawaran->pengajuan->status_id != 2) {
-            return redirect()->route('admin.pengajuan.index')->with('error', 'Penawaran belum diterima');
+            return redirect()->route('admin.pengajuan.index')->with('error', 'Offer not yet accepted');
         }
 
         return view('transaksi.order.create', compact('penawaran'));
@@ -49,9 +56,9 @@ class OrdersController extends Controller
         $order = Orders::where('penawaran_id', $penawaran->id)->first();
 
         if ($order) {
-            return redirect()->route('admin.pengajuan.index')->with('error', 'Order sudah dibuat');
+            return redirect()->route('admin.pengajuan.index')->with('error', 'Order has been created');
         } elseif ($penawaran->status_id != 2 || $penawaran->pengajuan->status_id != 2) {
-            return redirect()->route('admin.pengajuan.index')->with('error', 'Penawaran belum diterima');
+            return redirect()->route('admin.pengajuan.index')->with('error', 'Offer not yet accepted');
         }
 
         return DB::transaction(function () use ($penawaran, $request) {
@@ -82,7 +89,7 @@ class OrdersController extends Controller
                 'pembayaran_term3' => $request->pembayaran_term3,
             ]);
 
-            return redirect()->route('admin.pengajuan.index')->with('success', 'Order berhasil dibuat');
+            return redirect()->route('admin.pengajuan.index')->with('success', 'Order successfully created');
         });
     }
 
@@ -111,7 +118,7 @@ class OrdersController extends Controller
     public function uploadKontrakCustomer(Orders $orders)
     {
         if($orders->status_order_id != OrdersStatus::CONTRACT_SIGNED_EXPORTER) {
-            return redirect()->route('orders.index')->with('error', 'Kontrak belum dapat diupload');
+            return redirect()->route('orders.index')->with('error', 'Contract cannot be uploaded yet');
         }
 
         $orders = Orders::find($orders->id);
@@ -122,7 +129,7 @@ class OrdersController extends Controller
     public function updateKontrakCustomer(Orders $orders, Request $request)
     {
         if($orders->status_order_id != OrdersStatus::CONTRACT_SIGNED_EXPORTER) {
-            return redirect()->route('orders.index')->with('error', 'Kontrak belum dapat diupload');
+            return redirect()->route('orders.index')->with('error', 'Contract cannot be uploaded yet');
         }
 
         $validated = $request->validate([
@@ -141,7 +148,7 @@ class OrdersController extends Controller
                 'status_order_id' => OrdersStatus::CONTRACT_SIGNED_IMPORTER,
             ]);
 
-            return redirect()->route('orders.index')->with('success', 'Kontrak berhasil diupload');
+            return redirect()->route('orders.index')->with('success', 'Contract uploaded successfully');
         });
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +159,7 @@ class OrdersController extends Controller
     public function uploadPembayaranTerm1(Orders $orders)
     {
         if($orders->status_order_id != OrdersStatus::CONTRACT_SIGNED_IMPORTER) {
-            return redirect()->route('orders.index')->with('error', 'Bukti pembayaran term 1 belum dapat diupload');
+            return redirect()->route('orders.index')->with('error', 'Proof of payment for term 1 cannot be uploaded yet');
         }
 
         $routeName = 'orders.update-1st-term';
@@ -165,7 +172,7 @@ class OrdersController extends Controller
     public function updatePembayaranTerm1(Orders $orders, Request $request)
     {
         if($orders->status_order_id != OrdersStatus::CONTRACT_SIGNED_IMPORTER) {
-            return redirect()->route('orders.index')->with('error', 'Bukti pembayaran term 1 belum dapat diupload');
+            return redirect()->route('orders.index')->with('error', 'Proof of payment for term 1 cannot be uploaded yet');
         }
 
         $validated = $request->validate([
@@ -183,7 +190,7 @@ class OrdersController extends Controller
                 'status_order_id' => OrdersStatus::FIRST_TERM_PAYMENT_SUBMITTED,
             ]);
 
-            return redirect()->route('orders.index')->with('success', 'Bukti pembayaran term 1 berhasil diupload');
+            return redirect()->route('orders.index')->with('success', 'Proof of payment of term 1 successfully uploaded');
         });
     }
 
@@ -193,7 +200,7 @@ class OrdersController extends Controller
     public function uploadInvoice1(Orders $orders)
     {
         if($orders->status_order_id != OrdersStatus::FIRST_TERM_PAYMENT_SUBMITTED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Invoice belum dapat diupload');
+            return redirect()->route('admin.orders.index')->with('error', 'Invoices cannot be uploaded yet');
         }
 
         $orders = Orders::with('pembayaran')->find($orders->id);
@@ -208,7 +215,7 @@ class OrdersController extends Controller
     public function updateInvoice1(Orders $orders, Request $request)
     {
         if($orders->status_order_id != OrdersStatus::FIRST_TERM_PAYMENT_SUBMITTED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Invoice belum dapat diupload');
+            return redirect()->route('admin.orders.index')->with('error', 'Invoices cannot be uploaded yet');
         }
 
         $validated = $request->validate([
@@ -224,7 +231,7 @@ class OrdersController extends Controller
                 'invoice_term1' => $request->file('invoice')->store('pembayaran'),
             ]);
 
-            return redirect()->route('admin.orders.index')->with('success', 'Invoice berhasil diupload');
+            return redirect()->route('admin.orders.index')->with('success', 'Invoice uploaded successfully');
         });
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -235,7 +242,7 @@ class OrdersController extends Controller
     public function updateStatusInProduction(Orders $orders)
     {
         if ($orders->status_order_id != OrdersStatus::FIRST_TERM_PAYMENT_RECEIVED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
     
         return DB::transaction(function () use ($orders) {
@@ -247,7 +254,7 @@ class OrdersController extends Controller
                 'order_id' => $orders->id,
             ]);
     
-            return redirect()->route('admin.orders.index')->with('success', 'Status berhasil diubah');
+            return redirect()->route('admin.orders.index')->with('success', 'Status successfully changed');
         });
     }
 
@@ -257,7 +264,7 @@ class OrdersController extends Controller
     public function uploadInProduction(Orders $orders)
     {
         if ($orders->status_order_id != OrdersStatus::PRODUCT_IN_PRODUCTION) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         $orders = Orders::with('progress')->find($orders->id);
@@ -274,14 +281,14 @@ class OrdersController extends Controller
             return redirect()->back()->with('error', $result->message);
         }
 
-        return redirect()->route('admin.orders.index')->with('success', 'Foto produksi berhasil diupload');
+        return redirect()->route('admin.orders.index')->with('success', 'Production photos uploaded successfully');
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function updateStatusProductFinished(Orders $orders)
     {
         if ($orders->status_order_id != OrdersStatus::PRODUCT_IN_PRODUCTION) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         return DB::transaction(function () use ($orders) {
@@ -289,14 +296,14 @@ class OrdersController extends Controller
                 'status_order_id' => OrdersStatus::PRODUCTION_COMPLETED,
             ]);
 
-            return redirect()->route('admin.orders.index')->with('success', 'Status berhasil diubah');
+            return redirect()->route('admin.orders.index')->with('success', 'Status successfully changed');
         });
     }
 
     public function uploadProductFinished(Orders $orders)
     {
         if ($orders->status_order_id != OrdersStatus::PRODUCTION_COMPLETED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         $orders = Orders::with('progress')->find($orders->id);
@@ -320,11 +327,11 @@ class OrdersController extends Controller
     public function uploadTestLab(Orders $orders)
     {
         if ($orders->status_order_id != OrdersStatus::PRODUCTION_COMPLETED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         if ($orders->progress->lab_test_document) {
-            return redirect()->route('admin.orders.index')->with('error', 'Lab test document sudah diupload');
+            return redirect()->route('admin.orders.index')->with('error', 'Laboratory test document has been uploaded');
         }
 
         $orders = Orders::with('progress')->find($orders->id);
@@ -335,11 +342,11 @@ class OrdersController extends Controller
     public function updateTestLab(Orders $orders, Request $request)
     {
         if ($orders->status_order_id != OrdersStatus::PRODUCTION_COMPLETED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         if ($orders->progress->lab_test_document) {
-            return redirect()->route('admin.orders.index')->with('error', 'Lab test document sudah diupload');
+            return redirect()->route('admin.orders.index')->with('error', 'Laboratory test document has been uploaded');
         }
 
         $validated = $request->validate([
@@ -355,13 +362,13 @@ class OrdersController extends Controller
             ]);
         });
 
-        return redirect()->route('admin.orders.index')->with('success', 'Lab test document berhasil diupload');
+        return redirect()->route('admin.orders.index')->with('success', 'Laboratory test document uploaded successfully');
     }
     
     public function uploadPembayaranTerm2(Orders $orders)
     {
         if ($orders->status_order_id != OrdersStatus::TEST_LAB_SENT || !$orders->progress->lab_test_document) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         $routeName = 'orders.update-2nd-term';
@@ -373,7 +380,7 @@ class OrdersController extends Controller
     public function updatePembayaranTerm2(Orders $orders, Request $request)
     {
         if ($orders->status_order_id != OrdersStatus::TEST_LAB_SENT || !$orders->progress->lab_test_document) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         $validated = $request->validate([
@@ -388,14 +395,14 @@ class OrdersController extends Controller
             'status_order_id' => OrdersStatus::SECOND_TERM_PAYMENT_SUBMITTED,
         ]);
 
-        return redirect()->route('orders.index')->with('success', 'Bukti pembayaran term 2 berhasil diupload');
+        return redirect()->route('orders.index')->with('success', 'Proof of payment of term 2 successfully uploaded');
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function uploadInvoice2(Orders $orders)
     {
         if($orders->status_order_id != OrdersStatus::SECOND_TERM_PAYMENT_SUBMITTED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Invoice belum dapat diupload');
+            return redirect()->route('admin.orders.index')->with('error', 'Invoices cannot be uploaded yet');
         }
 
         $orders = Orders::with('pembayaran')->find($orders->id);
@@ -409,7 +416,7 @@ class OrdersController extends Controller
     public function updateInvoice2(Orders $orders, Request $request)
     {
         if($orders->status_order_id != OrdersStatus::SECOND_TERM_PAYMENT_SUBMITTED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Invoice belum dapat diupload');
+            return redirect()->route('admin.orders.index')->with('error', 'Invoices cannot be uploaded yet');
         }
 
         $validated = $request->validate([
@@ -425,7 +432,7 @@ class OrdersController extends Controller
                 'invoice_term2' => $request->file('invoice')->store('pembayaran'),
             ]);
 
-            return redirect()->route('admin.orders.index')->with('success', 'Invoice berhasil diupload');
+            return redirect()->route('admin.orders.index')->with('success', 'Invoice uploaded successfully');
         });
     }
 
@@ -435,7 +442,7 @@ class OrdersController extends Controller
     public function uploadProductPacking(Orders $orders)
     {
         if ($orders->status_order_id != OrdersStatus::SECOND_TERM_PAYMENT_RECEIVED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         $orders = Orders::with('progress')->find($orders->id);
@@ -453,17 +460,17 @@ class OrdersController extends Controller
             return redirect()->back()->with('error', $result->message);
         }
 
-        return redirect()->route('admin.orders.index')->with('success', 'Foto packing berhasil diupload');
+        return redirect()->route('admin.orders.index')->with('success', 'Packing photos uploaded successfully');
     }
 
     public function uploadDokumenShipping(Orders $orders)
     {
         if ($orders->status_order_id != OrdersStatus::SECOND_TERM_PAYMENT_RECEIVED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         if ($orders->progress->shipping_document) {
-            return redirect()->route('admin.orders.index')->with('error', 'Dokumen shipping sudah diupload');
+            return redirect()->route('admin.orders.index')->with('error', 'Shipping documents have been uploaded');
         }
 
         $orders = Orders::with('progress')->find($orders->id);
@@ -474,11 +481,11 @@ class OrdersController extends Controller
     public function updateDokumenShipping(Orders $orders, Request $request)
     {
         if ($orders->status_order_id != OrdersStatus::SECOND_TERM_PAYMENT_RECEIVED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         if ($orders->progress->shipping_document) {
-            return redirect()->route('admin.orders.index')->with('error', 'Dokumen shipping sudah diupload');
+            return redirect()->route('admin.orders.index')->with('error', 'Shipping documents have been uploaded');
         }
 
         $validated = $request->validate([
@@ -495,14 +502,14 @@ class OrdersController extends Controller
             ]);
         });
          
-        return redirect()->route('admin.orders.index')->with('success', 'Dokumen shipping berhasil diupload');
+        return redirect()->route('admin.orders.index')->with('success', 'Shipping document uploaded successfully');
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function uploadPembayaranTerm3(Orders $orders)
     {
         if ($orders->status_order_id != OrdersStatus::FREIGHT_DOCUMENTS_SENT) {
-            return redirect()->route('admin.orders.index')->with('error', 'Bukti pembayaran term 3 belum dapat diupload');
+            return redirect()->route('admin.orders.index')->with('error', 'Proof of payment for term 3 cannot be uploaded yet');
         }
 
         $routeName = 'orders.update-3rd-term';
@@ -515,7 +522,7 @@ class OrdersController extends Controller
     public function updatePembayaranTerm3(Orders $orders, Request $request)
     {
         if ($orders->status_order_id != OrdersStatus::FREIGHT_DOCUMENTS_SENT) {
-            return redirect()->route('admin.orders.index')->with('error', 'Bukti pembayaran term 3 belum dapat diupload');
+            return redirect()->route('admin.orders.index')->with('error', 'Proof of payment for term 3 cannot be uploaded yet');
         }
 
         $validated = $request->validate([
@@ -533,14 +540,14 @@ class OrdersController extends Controller
                 'status_order_id' => OrdersStatus::THIRD_TERM_PAYMENT_SUBMITTED,
             ]);
 
-            return redirect()->route('orders.index')->with('success', 'Bukti pembayaran term 3 berhasil diupload');
+            return redirect()->route('orders.index')->with('success', 'Proof of payment of term 3 successfully uploaded');
         });
     }
 
     public function uploadInvoice3(Orders $orders)
     {
         if($orders->status_order_id != OrdersStatus::THIRD_TERM_PAYMENT_SUBMITTED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Invoice belum dapat diupload');
+            return redirect()->route('admin.orders.index')->with('error', 'Invoices cannot be uploaded yet');
         }
 
         $orders = Orders::with('pembayaran')->find($orders->id);
@@ -554,7 +561,7 @@ class OrdersController extends Controller
     public function updateInvoice3(Orders $orders, Request $request)
     {
         if($orders->status_order_id != OrdersStatus::THIRD_TERM_PAYMENT_SUBMITTED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Invoice belum dapat diupload');
+            return redirect()->route('admin.orders.index')->with('error', 'Invoices cannot be uploaded yet');
         }
 
         $validated = $request->validate([
@@ -570,7 +577,7 @@ class OrdersController extends Controller
                 'invoice_term3' => $request->file('invoice')->store('pembayaran'),
             ]);
 
-            return redirect()->route('admin.orders.index')->with('success', 'Invoice berhasil diupload');
+            return redirect()->route('admin.orders.index')->with('success', 'Invoice uploaded successfully');
         });
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -578,7 +585,7 @@ class OrdersController extends Controller
     public function uploadShippingContainer(Orders $orders)
     {
         if ($orders->status_order_id != OrdersStatus::THIRD_TERM_PAYMENT_RECEIVED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         $orders = Orders::with('progress')->find($orders->id);
@@ -590,7 +597,7 @@ class OrdersController extends Controller
     public function updateShippingContainer(Orders $orders, Request $request)
     {
         if ($orders->status_order_id != OrdersStatus::THIRD_TERM_PAYMENT_RECEIVED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         $result = $this->uploadPhotos($orders, $request, 'product_container');
@@ -599,17 +606,17 @@ class OrdersController extends Controller
             return redirect()->back()->with('error', $result->message);
         }
          
-        return redirect()->route('admin.orders.index')->with('success', 'Foto container berhasil diupload');
+        return redirect()->route('admin.orders.index')->with('success', 'Container photos uploaded successfully');
     }
 
     public function uploadBOL(Orders $orders)
     {
         if ($orders->status_order_id != OrdersStatus::THIRD_TERM_PAYMENT_RECEIVED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         if ($orders->progress->bill_of_lading) {
-            return redirect()->route('admin.orders.index')->with('error', 'Dokumen bill of lading sudah diupload');
+            return redirect()->route('admin.orders.index')->with('error', 'Bill of lading document has been uploaded');
         }
 
         $orders = Orders::with('progress')->find($orders->id);
@@ -620,11 +627,11 @@ class OrdersController extends Controller
     public function updateBOL(Orders $orders, Request $request)
     {
         if ($orders->status_order_id != OrdersStatus::THIRD_TERM_PAYMENT_RECEIVED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         if ($orders->progress->bill_of_lading) {
-            return redirect()->route('admin.orders.index')->with('error', 'Dokumen bill of lading sudah diupload');
+            return redirect()->route('admin.orders.index')->with('error', 'Bill of lading document has been uploaded');
         }
 
         $validated = $request->validate([
@@ -641,7 +648,7 @@ class OrdersController extends Controller
             ]);
         });
          
-        return redirect()->route('admin.orders.index')->with('success', 'Dokumen bill of lading berhasil diupload');
+        return redirect()->route('admin.orders.index')->with('success', 'Bill of lading document uploaded successfully');
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -650,7 +657,7 @@ class OrdersController extends Controller
     public function updateStatusDelivered(Orders $orders)
     {
         if ($orders->status_order_id != OrdersStatus::BILL_OF_LADING_SENT) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         return DB::transaction(function () use ($orders) {
@@ -658,14 +665,14 @@ class OrdersController extends Controller
                 'status_order_id' => OrdersStatus::PRODUCT_SAFELY_ARRIVED,
             ]);
 
-            return redirect()->route('admin.orders.index')->with('success', 'Status berhasil diubah');
+            return redirect()->route('admin.orders.index')->with('success', 'Status successfully changed');
         });
     }
 
     public function updateStatusComplete(Orders $orders)
     {
         if ($orders->status_order_id != OrdersStatus::PRODUCT_SAFELY_ARRIVED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Status belum dapat diubah');
+            return redirect()->route('admin.orders.index')->with('error', 'Status cannot be changed yet');
         }
 
         return DB::transaction(function () use ($orders) {
@@ -673,7 +680,7 @@ class OrdersController extends Controller
                 'status_order_id' => OrdersStatus::TRANSACTION_COMPLETED,
             ]);
 
-            return redirect()->route('orders.index')->with('success', 'Status berhasil diubah');
+            return redirect()->route('orders.index')->with('success', 'Status successfully changed');
         });
     }
 
@@ -729,7 +736,7 @@ class OrdersController extends Controller
         ];
 
         if ($orders->status_order_id != $statuses[$column]) {
-            return redirect()->route('orders.index')->with('error', 'Status tidak sesuai');
+            return redirect()->route('orders.index')->with('error', 'Status does not match');
         }
 
         return null;

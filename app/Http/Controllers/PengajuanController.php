@@ -100,8 +100,6 @@ class PengajuanController extends Controller
             'harga' => 'required',
         ]);
 
-        $path = Storage::putFile('pengajuan', $request->file('dokumen'));
-
         PenawaranHarga::create([
             'pengajuan_id' => $pengajuan->id,
             'harga' => $validated['harga'],
