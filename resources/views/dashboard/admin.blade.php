@@ -23,14 +23,14 @@
     <div class="bg-white overflow-hidden shadow-sm rounded-lg w-1/6 flex flex-col items-center py-3">
         <p class="text-md text-black font-bold">Total Transaction </p>
         <div class="flex items-center gap-1 text-indigo-500 mt-2">
-            <p class="text-5xl">{{ $totalDokumenCustomers }}</p>
+            <p class="text-5xl">{{ $totalTransaction }}</p>
         </div>
     </div>
 
     <div class="bg-white overflow-hidden shadow-sm rounded-lg w-1/6 flex flex-col items-center py-3">
         <p class="text-md text-black font-bold">Successful Transaction </p>
         <div class="flex items-center gap-1 text-indigo-500 mt-2">
-            <p class="text-5xl">{{ $totalDokumenCustomers }}</p>
+            <p class="text-5xl">{{ $totalSuccessOrders }}</p>
         </div>
     </div>
 </div>

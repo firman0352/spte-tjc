@@ -18,7 +18,8 @@
                     <x-input-error :messages="$errors->get('harga')" class="mt-2" />
 
                     <x-input-label for="dokumen" value="Document" />
-                    <input id="dokumen" name="dokumen" type="file" class="block mt-1 w-full" />
+                    <input id="dokumen" name="dokumen" type="file"
+                        class='block mt-1 w-full file-input  file-input-bordered file-input-primary bg-white max-w-xs' />
                     <x-input-error :messages="$errors->get('dokumen')" class="mt-2" />
 
                     <div class="mt-4">

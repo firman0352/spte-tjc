@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                {{ __('Pengajuan') }}
+                {{ __('Product Specification Submission') }}
             </h2>
             <a href="{{ route('pengajuan.create') }}"
                 class="gap-1 inline-flex items-center rounded-lg border bg-purple-300 border-white-purple px-4 py-2 text-xs font-semibold tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25">
@@ -36,31 +36,31 @@
                                 <tr>
                                     <th class="bg-transparant px-6 py-3 text-left w-[15%]">
                                         <span
-                                            class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Product
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Product
                                             Name</span>
                                     </th>
                                     <th class="bg-transparant px-6 py-3 text-left w-[15%]">
                                         <span
-                                            class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Amount
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Amount
                                             of Tons</span>
                                     </th>
                                     <th class="bg-transparant px-6 py-3 text-left dt-head-center w-[15%]">
                                         <span
-                                            class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Submission
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Submission
                                             Status</span>
                                     </th>
                                     <th class="bg-transparant px-6 py-3 text-left dt-head-center w-[15%]">
                                         <span
-                                            class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Offering
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Offering
                                             Status</span>
                                     </th>
                                     <th class="bg-transparant px-6 py-3 text-left dt-head-center w-[20%]">
                                         <span
-                                            class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Document</span>
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Document</span>
                                     </th>
                                     <th class="bg-transparant px-6 py-3 text-left dt-head-center w-[20%]">
                                         <span
-                                            class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Action</span>
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Action</span>
                                     </th>
                                 </tr>
                             </thead>
@@ -103,7 +103,7 @@
                                         </td>
                                         <td>
                                             @if ($p->penawaranHarga)
-                                                @if ($p->penawaranHarga->status_id == 1 || $p->penawaranHarga->status_id == 5)
+                                                @if ($p->penawaranHarga->status_id == 1 || $p->penawaranHarga->status_id == 5 || $p->penawaranHarga->status_id == 2)
                                                     <a href="{{ route('penawaran-harga.show', $p->penawaranHarga->id) }}"
                                                         class="px-2 py-0 lg:py-1 inline-flex items-center text-sm lg:text-md leading-5 font-semibold rounded-full bg-lime-100 text-lime-800 gap-1 hover:bg-lime-200 hover:text-lime-900">
                                                         <svg fill="none" stroke="currentColor" stroke-width="1.5"
@@ -113,9 +113,8 @@
                                                                 d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244">
                                                             </path>
                                                         </svg>
-                                                        View Penawaran Harga
+                                                        Price Offer Details
                                                     </a>
-                                                @elseif($p->penawaranHarga->status_id == 2)
                                                 @endif
                                             @endif
                                         </td>

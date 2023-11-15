@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@alpinejs/collapse": "^3.13.2",
-        "daisyui": "^3.6.3"
+        "daisyui": "^3.6.3",
+        "lightbox2": "^2.11.4"
     }
 }

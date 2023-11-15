@@ -36,7 +36,8 @@
 
                         <div>
                             <x-input-label for="dokumen" value="Specification Product Document" />
-                            <x-text-input type="file" name="dokumen" id="dokumen" class="block mt-1 w-full"
+                            <x-text-input type="file" name="dokumen" id="dokumen"
+                                class='block mt-1 w-full file-input  file-input-bordered file-input-primary bg-white max-w-xs'
                                 required />
                             <x-input-error :messages="$errors->get('dokumen')" class="mt-2" />
                         </div>
