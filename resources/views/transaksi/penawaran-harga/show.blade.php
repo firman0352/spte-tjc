@@ -22,8 +22,6 @@
                         {{ $penawaran->pengajuan->jumlah }} Tons</p>
                     <p class="mb-2 text-black"><strong class="text-gray-400">Price:</strong>
                         ${{ number_format(floatval($penawaran->harga), 2, '.', ',') }} / Tons</p>
-                    <p class="mb-2 text-black"><strong class="text-gray-400">Status:</strong>
-                        {{ $penawaran->status->status }}</p>
                     @php
                         $total = floatval($penawaran->pengajuan->jumlah) * floatval($penawaran->harga);
                         $formattedTotal = number_format($total, 2, '.', ',');
@@ -37,22 +35,24 @@
                     @endif
                     <div class="flex gap-4 mt-10">
                         @if (auth()->user()->roleName() == 'customer')
-                            <form method="post" action="{{ route('penawaran-harga.approve', $penawaran->id) }}">
-                                @csrf
-                                @method('patch')
-                                <button type="submit"
-                                    class="px-2 py-0 inline-flex items-center text-sm lg:text-lg leading-5 font-semibold rounded-full bg-green-100 text-green-800 gap-1 hover:bg-green-200 hover:text-green-900">Approve</button>
-                            </form>
-                            <form method="post" action="{{ route('penawaran-harga.reject', $penawaran->id) }}"
-                                data-penawaran-id="{{ $penawaran->id }}">
-                                @csrf
-                                @method('patch')
-                                <button type="button"
-                                    class="reject-button px-2 py-0 inline-flex items-center text-sm lg:text-lg leading-5 font-semibold rounded-full bg-red-100 text-red-800 gap-1 hover:bg-red-200 hover:text-red-900">Reject</button>
-                            </form>
+                            @if ($penawaran->status_id == 1 || $penawaran->status_id == 5)
+                                <form method="post" action="{{ route('penawaran-harga.approve', $penawaran->id) }}">
+                                    @csrf
+                                    @method('patch')
+                                    <button type="submit"
+                                        class="px-2 py-0 inline-flex items-center text-sm lg:text-lg leading-5 font-semibold rounded-full bg-green-100 text-green-800 gap-1 hover:bg-green-200 hover:text-green-900">Approve</button>
+                                </form>
+                                <form method="post" action="{{ route('penawaran-harga.reject', $penawaran->id) }}"
+                                    data-penawaran-id="{{ $penawaran->id }}">
+                                    @csrf
+                                    @method('patch')
+                                    <button type="button"
+                                        class="reject-button px-2 py-0 inline-flex items-center text-sm lg:text-lg leading-5 font-semibold rounded-full bg-red-100 text-red-800 gap-1 hover:bg-red-200 hover:text-red-900">Reject</button>
+                                </form>
 
-                            <button onclick="openModal()"
-                                class="px-2 py-0 inline-flex items-center text-sm lg:text-lg leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 gap-1 hover:bg-indigo-200 hover:text-indigo-900">Negotiate</button>
+                                <button onclick="openModal()"
+                                    class="px-2 py-0 inline-flex items-center text-sm lg:text-lg leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 gap-1 hover:bg-indigo-200 hover:text-indigo-900">Negotiate</button>
+                            @endif
                         @elseif(auth()->user()->roleName() == 'admin')
                             @if ($penawaran->status_id == 4)
                                 <a href="{{ route('admin.penawaran-harga.edit', $penawaran->id) }}"

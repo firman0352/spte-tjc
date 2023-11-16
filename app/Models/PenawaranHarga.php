@@ -30,7 +30,7 @@ class PenawaranHarga extends Model
 
     public function Orders()
     {
-        return $this->hasOne(Orders::class);
+        return $this->hasOne(Orders::class, 'penawaran_id', 'id');
     }
     
     public function getTempUrl($path)

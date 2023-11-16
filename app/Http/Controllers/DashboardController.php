@@ -9,6 +9,7 @@ use App\Models\PenawaranHarga;
 use App\Models\Pengajuan;
 use App\Models\Verifikasi;
 use App\Models\Inspektur;
+use App\Models\Orders;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -24,10 +25,13 @@ class DashboardController extends Controller
         $pengajuans = Pengajuan::all();
         $needSpecificApproval = $pengajuans->where('status_id', 1)->count();
         $penawaranHarga = PenawaranHarga::all();
+        $totalTransaction = $penawaranHarga->count();
         $offeringApproval = $penawaranHarga->where('status_id', 4)->count();
+        $orders = Orders::all();
+        $totalSuccessOrders = $orders->where('status_order_id', 15)->count();
 
 
-        return view('dashboard', compact('totalUsers', 'totalDokumenCustomers', 'totalInspector', 'needVerification', 'users', 'dokumenCustomers', 'needSpecificApproval', 'offeringApproval'));
+        return view('dashboard', compact('totalUsers', 'totalDokumenCustomers', 'totalInspector', 'needVerification', 'users', 'dokumenCustomers', 'needSpecificApproval', 'offeringApproval', 'totalSuccessOrders', 'totalTransaction'));
     }
 
     public function inspekturDashboard() {
@@ -50,6 +54,25 @@ class DashboardController extends Controller
         $userId = auth()->user()->id;
         $dokumenCustomers = DokumenCustomer::where('user_id', $userId)->get();
 
-        return view('dashboard', compact('dokumenCustomers'));
+        $pengajuans = Pengajuan::where('user_id', $userId)->get();
+        $pengajuanId = $pengajuans->pluck('id');
+
+        $penawaranHarga = PenawaranHarga::whereIn('pengajuan_id', $pengajuanId)->get();
+        $penawaranHargaId = $penawaranHarga->pluck('id');
+        $totalTransaction = $penawaranHarga->count();
+
+        $needApproval = $penawaranHarga->where('status_id', 1)->count();
+        $reSubmit = $penawaranHarga->where('status_id', 5)->count();
+        
+        $waitFOD = $penawaranHarga->where('dokumen', null)->where('status_id', 2)->count();
+        $waitProcess = $penawaranHarga->filter(function ($ph) {
+            return $ph->orders === null && $ph->dokumen !== null && $ph->status_id === 2;
+        })->count();        
+
+        $orders = Orders::whereIn('penawaran_id', $penawaranHargaId)->get();
+        $totalSuccessOrders = $orders->where('status_order_id', 15)->count();
+        
+
+        return view('dashboard', compact('dokumenCustomers', 'needApproval', 'reSubmit', 'waitFOD', 'waitProcess', 'totalTransaction', 'totalSuccessOrders'));
     }
 }

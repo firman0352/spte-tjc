@@ -139,9 +139,6 @@ class PenawaranHargaController extends Controller
             'harga' => 'required',
         ]);
 
-        $path = Storage::putFile('penawaran', $request->file('dokumen'));
-
-        $penawaran->dokumen = $path;
         $penawaran->harga = $validated['harga'];
         $penawaran->status_id = 5;
         $penawaran->save();

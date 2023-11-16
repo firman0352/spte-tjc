@@ -7,7 +7,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Pengajuan') }}
+            {{ __('Product Specification Submission') }}
         </h2>
     </x-slot>
 
@@ -35,36 +35,36 @@
                                 <tr>
                                     <th class="bg-transparant px-6 py-3 text-left w-[10%]">
                                         <span
-                                            class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Company
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Company
                                             Name</span>
                                     </th>
                                     <th class="bg-transparant px-6 py-3 text-left w-[10%]">
                                         <span
-                                            class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Product
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Product
                                             Name</span>
                                     </th>
                                     <th class="bg-transparant px-6 py-3 text-left w-[10%]">
                                         <span
-                                            class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Amount
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Amount
                                             of Tons</span>
                                     </th>
                                     <th class="bg-transparant px-6 py-3 text-left dt-head-center w-[15%]">
                                         <span
-                                            class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Submission
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Submission
                                             Status</span>
                                     </th>
                                     <th class="bg-transparant px-6 py-3 text-left dt-head-center w-[15%]">
                                         <span
-                                            class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Offering
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Offering
                                             Status</span>
                                     </th>
                                     <th class="bg-transparant px-6 py-3 text-left dt-head-center w-[20%]">
                                         <span
-                                            class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Document</span>
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Document</span>
                                     </th>
                                     <th class="bg-transparant px-6 py-3 text-left dt-head-center w-[20%]">
                                         <span
-                                            class="text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">Action</span>
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Action</span>
                                     </th>
                                 </tr>
                             </thead>
@@ -147,6 +147,19 @@
                                                     </svg>
                                                     Price Offer Details
                                                 </a>
+                                                @if ($p->penawaranHarga->status_id == 2 && $p->penawaranHarga->dokumen != null && $p->penawaranHarga->orders == null)
+                                                    <a href="{{ route('admin.orders.create', $p->penawaranHarga->id) }}"
+                                                        class="px-2 py-0 lg:py-1 inline-flex items-center text-sm lg:text-md leading-5 font-semibold rounded-full bg-cyan-100 text-cyan-800 gap-1 hover:bg-cyan-200 hover:text-cyan-900">
+                                                        <svg fill="none" stroke="currentColor" stroke-width="1.5"
+                                                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                                            aria-hidden="true" width="12px">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244">
+                                                            </path>
+                                                        </svg>
+                                                        Process Orders
+                                                    </a>
+                                                @endif
                                             @endif
                                         </td>
                                     </tr>
@@ -249,7 +262,8 @@
 
                         <!-- ... Your form fields here ... -->
                         <x-input-label for="dokumen" value="Dokumen" />
-                        <input id="dokumen" name="dokumen" type="file" class="block mt-1 w-full" />
+                        <input id="dokumen" name="dokumen" type="file"
+                            class='block mt-1 w-full file-input  file-input-bordered file-input-primary bg-white max-w-xs' />
                         <x-input-error :messages="$errors->get('dokumen')" class="mt-2" />
 
                         <input type="hidden" id="penawaranIdInput" name="penawaran_id" value="">

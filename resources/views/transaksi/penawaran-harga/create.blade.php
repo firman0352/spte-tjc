@@ -22,13 +22,14 @@
 
                         <div>
                             <x-input-label for="dokumen" value="Dokumen" />
-                            <input id='dokumen' name='dokumen' type='file' class='block mt-1 w-full' />
+                            <input id='dokumen' name='dokumen' type='file'
+                                class='block mt-1 w-full file-input  file-input-bordered file-input-primary bg-white max-w-xs' />
                             <x-input-error :messages="$errors->get('dokumen')" class="mt-2" />
                         </div>
 
                         <div>
                             <button type="submit"
-                                class="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 transition duration-150 ease-in-out">Submit</button>
+                                class="mt-4 bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 transition duration-150 ease-in-out">Submit</button>
                         </div>
                     </form>
                 </div>

@@ -28,7 +28,8 @@
                         </div>
                         <div>
                             <x-input-label for="dokumen" value="Document" />
-                            <input id="file" name="file" type="file" class="block mt-1 w-full" />
+                            <input id="file" name="file" type="file"
+                                class='block mt-1 w-full file-input  file-input-bordered file-input-primary bg-white max-w-xs' />
                             <x-input-error :messages="$errors->get('file')" class="mt-2" />
                         </div>
 
