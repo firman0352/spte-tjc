@@ -61,7 +61,7 @@ Route::middleware(['auth', 'verified','PreventBackHistory'])->group(function () 
             Route::patch('/penawaran-harga/reject/{penawaran}', [PenawaranHargaController::class, 'reject'])->name('penawaran-harga.reject');
             Route::patch('/penawaran-harga/negotiate/{penawaran}', [PenawaranHargaController::class, 'negotiate'])->name('penawaran-harga.negotiate');
 
-            Route::get('/orders', [OrdersController::class, 'index'])->name('orders.index');
+            Route::get('/orders', [OrdersController::class, 'customerIndex'])->name('orders.index');
             Route::get('/orders/show/{orders}', [OrdersController::class, 'show'])->name('orders.show');
             Route::get('/orders/update-kontrak/{orders}', [OrdersController::class, 'uploadKontrakCustomer'])->name('orders.upload-kontrak');
             Route::patch('/orders/update-kontrak/{orders}', [OrdersController::class, 'updateKontrakCustomer'])->name('orders.update-kontrak');

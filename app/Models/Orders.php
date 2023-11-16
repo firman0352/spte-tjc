@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Orders extends Model
 {
@@ -21,14 +22,14 @@ class Orders extends Model
         static::created(function ($order) {
             $order->logs()->create([
                 'status_order_id' => $order->status_order_id,
-                'user_id' => $order->user_id,
+                'user_id' => Auth::user()->id,
             ]);
         });
 
         static::updated(function ($order) {
             $order->logs()->create([
                 'status_order_id' => $order->status_order_id,
-                'user_id' => $order->user_id,
+                'user_id' => Auth::user()->id,
             ]);
         });
     }
