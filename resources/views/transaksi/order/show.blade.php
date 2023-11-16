@@ -5,9 +5,9 @@
         </h2>
     </x-slot>
 
-    <div class="">
-        <div class="max-w-full px-4">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg w-1/2">
+    <div class="flex">
+        <div class="max-w-full px-4 w-1/2">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="flex items-center justify-between lg:flex-row flex-col">
                         <h1 class="text-xl lg:text-2xl font-semibold text-black">
@@ -83,9 +83,9 @@
 
                 </div>
             </div>
-            <div
-                class="mt-4 p-6 bg-white border-b border-gray-200 overflow-hidden bg-white shadow-sm sm:rounded-lg w-1/2 flex flex-col gap-9">
-                @if ($orders->progress)
+            @if ($orders->progress)
+                <div
+                    class="mt-4 p-6 bg-white border-b border-gray-200 overflow-hidden bg-white shadow-sm sm:rounded-lg flex flex-col gap-9">
                     @if (!empty($orders->progress->in_production))
                         <div>
                             <p class="mb-2 text-black font-bold">Production Photos</p>
@@ -138,9 +138,58 @@
                             </div>
                         </div>
                     @endif
-                @endif
-            </div>
+                </div>
+            @endif
         </div>
+        @customer
+            <div class="max-w-full px-4 xl:w-1/2">
+                <div class="overflow-hidden bg-white shadow-sm rounded-lg p-6 flex flex-col items-center">
+                    <h1 class="text-black font-bold">Verification Progress Details</h1>
+                    <div>
+                        @if (auth()->user()->dokumenCustomer)
+                            <ul class="steps steps-vertical text-black">
+                                @php
+                                    $statuses = [
+                                        1 => 'Document Uploaded',
+                                        2 => 'Document Submitted',
+                                        3 => 'Document has been approved & the document has verified',
+                                        4 => 'Document Rejected',
+                                        5 => 'Document Revised',
+                                        6 => 'A verification request has been made to the Inspectors',
+                                        7 => 'A verification request has been made to the Inspectors',
+                                        8 => 'Document has been approved',
+                                        9 => 'Document has been approved',
+                                        10 => 'Document has been approved',
+                                        11 => 'Document has been approved',
+                                        12 => 'Document has been approved',
+                                        13 => 'Document has been approved',
+                                        14 => 'Document has been approved',
+                                        15 => 'Document has been approved',
+                                        // Add more statuses as needed
+                                    ];
+                                @endphp
+
+                                {{-- Display status logs dynamically --}}
+                                @foreach ($orderLogs as $orderLog)
+                                    <li class="step step-primary">
+                                        <div class="items-start flex flex-col">
+                                            <p class="text-gray-500 text-sm">
+                                                {{ \Carbon\Carbon::parse($orderLog->created_at)->format('F j, Y, H:i') }}
+                                                UTC
+                                            </p>
+                                            <p>
+                                                {{ $statuses[$orderLog->status_order_id] }} by
+                                                <strong class="font-bold">{{ $orderLog->user->name }}</strong>
+                                            </p>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endcustomer
     </div>
 </x-app-layout>
 

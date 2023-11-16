@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Constants\OrdersStatus;
 use App\Models\Orders;
+use App\Models\OrdersLogs;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +29,21 @@ class OrdersController extends Controller
         else {
             $orders = Orders::whereIn('status_order_id',$statusIds)->with('penawaran.pengajuan', 'user.dokumencustomer')->get();
         }
+
+        return view('transaksi.order.index', compact('orders'));
+    }
+
+    public function customerIndex(Request $request)
+    {
+        $statusIds = $request->query('status_ids', []); // Default to an empty array if no query parameter is provided
+
+        if(empty($statusIds)) {
+            $orders = Orders::where('user_id', auth()->user()->id)->with('penawaran.pengajuan', 'user.dokumencustomer')->get();
+        }
+        else {
+            $orders = Orders::where('user_id', auth()->user()->id)->whereIn('status_order_id',$statusIds)->with('penawaran.pengajuan', 'user.dokumencustomer')->get();
+        }
+
         return view('transaksi.order.index', compact('orders'));
     }
 
@@ -108,8 +124,10 @@ class OrdersController extends Controller
             $orders->progress->product_container = $this->generateImageUrls($orders->progress, 'product_container');
         }
 
+        $orderLogs = OrdersLogs::where('order_id', $orders->id)->get();
+
         // dd($orders);
-        return view('transaksi.order.show', compact('orders'));
+        return view('transaksi.order.show', compact('orders', 'orderLogs'));
     }
 
     /**
