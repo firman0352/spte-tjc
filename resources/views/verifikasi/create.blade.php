@@ -52,6 +52,12 @@
                             </select>
                         </div>
 
+                        <div class="mb-4">
+                            <label for="rfid_tag" class="block text-gray-700 text-sm font-semibold mb-2">Pair
+                                RFID Tag:</label>
+                            <x-text-input id="rfid_tag" class="block mt-1 w-full" type="text" name="rfid_tag" :value="session('rfid_tag')" readonly required autofocus />
+                        </div>
+
                         <div>
                             <button type="submit"
                                 class="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 transition duration-150 ease-in-out">Create
@@ -63,3 +69,14 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    $(document).ready(function() {
+        setInterval(function() {
+            $.get('/rfid', function(data) {
+                $('#rfid_tag').val(data.rfid_tag);
+            });
+            console.log(data.rfid_tag); 
+        }, 1000); // Check every second
+    });
+</script>

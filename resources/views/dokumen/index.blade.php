@@ -36,6 +36,10 @@
                                 @endif
                                 <p class="text-xs text-black">Created Date</p>
                                 <h1 class="text-md sm:text-xl text-black font-bold">{{ $dokumen->created_at }}</h1>
+                                @if ($dokumen->verifikasi)
+                                    <p class="text-xs text-black">Current Document Position</p>
+                                    <h1 class="text-md sm:text-xl text-black font-bold">{{ $dokumen->verifikasi->location ?? '-' }}</h1>
+                                @endif
                             </div>
                             <div class="flex flex-col items-start gap-2">
                                 <x-status-badge :status_id="$dokumen->status_id" :status="$dokumen->status->status"

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -20,7 +21,9 @@ class Verifikasi extends Model
         'tanggal_mulai',
         'tanggal_selesai',
         'comment',
-        'rejecting_inspektur'
+        'rejecting_inspektur',
+        'rfid_tag',
+        'location'
     ];
 
     public function dokumenCustomer(): BelongsTo
@@ -41,5 +44,10 @@ class Verifikasi extends Model
     public function statusDokumen(): BelongsTo
     {
         return $this->belongsTo(StatusDokumen::class, 'status_id', 'id');
+    }
+
+    public function rfidLocation(): HasMany
+    {
+        return $this->hasMany(RfidLocation::class, 'rfid_tag', 'rfid_tag');
     }
 }
