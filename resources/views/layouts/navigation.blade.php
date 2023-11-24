@@ -81,16 +81,75 @@
                                 </div>
 
                                 @if (auth()->user()->roleName() == 'admin')
+                                    <hr class="h-px bg-gray-500 border-1">
                                     <div class="pt-2 pb-3 space-y-1">
-                                        <x-responsive-nav-link :href="route('jabatan.index')" :active="request()->routeIs('jabatan.index')">
-                                            {{ __('Jabatan') }}
+                                        <x-responsive-nav-link :href="route('admin.verifikasi.menunggu')" :active="request()->routeIs('admin.verifikasi.menunggu')">
+                                            {{ __('Waiting List Verification') }}
                                         </x-responsive-nav-link>
                                     </div>
-
+                                    <div class="pt-2 pb-3 space-y-1">
+                                        <x-responsive-nav-link :href="route('verifikasi.index')" :active="request()->routeIs('verifikasi.index')">
+                                            {{ __('Process Verification') }}
+                                        </x-responsive-nav-link>
+                                    </div>
+                                    <div class="pt-2 pb-3 space-y-1">
+                                        <x-responsive-nav-link :href="route('verifikasi.history')" :active="request()->routeIs('verifikasi.history')">
+                                            {{ __('History Verification') }}
+                                        </x-responsive-nav-link>
+                                    </div>
+                                    <hr class="h-px bg-gray-500 border-1">
+                                    <div class="pt-2 pb-3 space-y-1">
+                                        <x-responsive-nav-link :href="route('admin.pengajuan.index')" :active="request()->routeIs('admin.pengajuan.index')">
+                                            {{ __('Product Specification') }}
+                                        </x-responsive-nav-link>
+                                    </div>
+                                    <div class="pt-2 pb-3 space-y-1">
+                                        <x-responsive-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.index')">
+                                            {{ __('Product Order') }}
+                                        </x-responsive-nav-link>
+                                    </div>
+                                    <hr class="h-px bg-gray-500 border-1">
+                                    <div class="pt-2 pb-3 space-y-1">
+                                        <x-responsive-nav-link :href="route('jabatan.index')" :active="request()->routeIs('jabatan.index')">
+                                            {{ __('Inspector Position') }}
+                                        </x-responsive-nav-link>
+                                    </div>
                                     <div class="pt-2 pb-3 space-y-1">
                                         <x-responsive-nav-link :href="route('inspektur.index')" :active="request()->routeIs('inspektur.index')">
-                                            {{ __('Inspektur') }}
+                                            {{ __('Inspector') }}
                                         </x-responsive-nav-link>
+                                    </div>
+                                @endif
+                                @if (auth()->user()->roleName() == 'customer')
+                                    <hr class="h-px bg-gray-500 border-1">
+                                    <div class="pt-2 pb-3 space-y-1">
+                                        <x-responsive-nav-link :href="route('dokumen.index')" :active="request()->routeIs('dokumen.index')">
+                                            {{ __('Document') }}
+                                        </x-responsive-nav-link>
+                                    </div>
+                                    @if (auth()->user()->dokumenCustomer)
+                                        @if (auth()->user()->dokumenCustomer->status_id == 3)
+                                            <hr class="h-px bg-gray-500 border-1">
+                                            <div class="pt-2 pb-3 space-y-1">
+                                                <x-responsive-nav-link :href="route('pengajuan.index')" :active="request()->routeIs('pengajuan.index')">
+                                                    {{ __('Product Specification') }}
+                                                </x-responsive-nav-link>
+                                            </div>
+                                            <div class="pt-2 pb-3 space-y-1">
+                                                <x-responsive-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')">
+                                                    {{ __('Product Order') }}
+                                                </x-responsive-nav-link>
+                                            </div>
+                                        @endif
+                                    @endif
+                                @endif
+                                @if (auth()->user()->roleName() == 'inspektur')
+                                    <hr class="h-px bg-gray-500 border-1">
+                                    <div class="pt-2 pb-3 space-y-1">
+                                        <x-responsive-nav-link :href="route('inspektur.verifikasi.index')" :active="request()->routeIs('inspektur.verifikasi.index')">
+                                            {{ __('Document Verification') }}
+                                        </x-responsive-nav-link>
+                                    </div>
                                 @endif
 
                                 <!-- Responsive Settings Options -->
@@ -123,62 +182,3 @@
                 </div>
             </div>
 </nav>
-<!-- <div class="-mr-2 flex items-center md:hidden">
-            <button @click="open = ! open" @click.outside="open = false" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                    <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-    </div> -->
-
-<!-- Responsive Navigation Menu -->
-<!-- <div :class="{ 'block': open, 'hidden': !open }" class="hidden md:hidden flex-1 justify-self-end">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route(
-                auth()
-                    ->user()
-                    ->roleName() . '.dashboard',
-            )" :active="request()->routeIs(
-                auth()
-                    ->user()
-                    ->roleName() . '.dashboard',
-            )">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
-
-        @if (auth()->user()->roleName() == 'admin')
-<div :class="{ 'block': open, 'hidden': !open }" class="hidden md:hidden">
-                <div class="pt-2 pb-3 space-y-1">
-                    <x-responsive-nav-link :href="route('jabatan.index')" :active="request()->routeIs('jabatan.index')">
-                        {{ __('Jabatan') }}
-                    </x-responsive-nav-link>
-                </div>
-@endif -->
-<!-- Responsive Settings Options -->
-<!-- <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link> -->
-
-<!-- Authentication -->
-<!-- <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
-        </div>
-    </div> -->

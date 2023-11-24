@@ -150,21 +150,21 @@
                             <ul class="steps steps-vertical text-black">
                                 @php
                                     $statuses = [
-                                        1 => 'Document Uploaded',
-                                        2 => 'Document Submitted',
-                                        3 => 'Document has been approved & the document has verified',
-                                        4 => 'Document Rejected',
-                                        5 => 'Document Revised',
-                                        6 => 'A verification request has been made to the Inspectors',
-                                        7 => 'A verification request has been made to the Inspectors',
-                                        8 => 'Document has been approved',
-                                        9 => 'Document has been approved',
-                                        10 => 'Document has been approved',
-                                        11 => 'Document has been approved',
-                                        12 => 'Document has been approved',
-                                        13 => 'Document has been approved',
-                                        14 => 'Document has been approved',
-                                        15 => 'Document has been approved',
+                                        1 => 'Contract has been signed',
+                                        2 => 'Contract has been signed',
+                                        3 => 'Proof of payment of first term has been sent',
+                                        4 => 'First term invoice has been sent',
+                                        5 => 'Production',
+                                        6 => 'Production completion',
+                                        7 => 'Product Test Lab Document Sent',
+                                        8 => 'Proof of payment of second term has been sent',
+                                        9 => 'Second term invoice has been sent',
+                                        10 => 'Freight Documents Sent',
+                                        11 => 'Proof of payment of third term has been sent',
+                                        12 => 'Third term invoice has been sent',
+                                        13 => 'Bill of Lading Sent',
+                                        14 => 'Notification that the product has arrived',
+                                        15 => 'Transaction settled',
                                         // Add more statuses as needed
                                     ];
                                 @endphp

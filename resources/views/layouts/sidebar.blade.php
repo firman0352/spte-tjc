@@ -106,7 +106,7 @@
                                             </path>
                                         </svg>
                                         <label class=" cursor-pointer"
-                                            x-show="!isMinimizeSidebar">{{ __('Product Spec') }}</label>
+                                            x-show="!isMinimizeSidebar">{{ __('Product Specification') }}</label>
                                     </div>
                                 </x-nav-link>
                                 <x-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.index')"
@@ -197,7 +197,7 @@
                                                     </path>
                                                 </svg>
                                                 <label class=" cursor-pointer"
-                                                    x-show="!isMinimizeSidebar">{{ __('Product Spec') }}</label>
+                                                    x-show="!isMinimizeSidebar">{{ __('Product Specification') }}</label>
                                             </div>
                                         </x-nav-link>
                                         <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')"
@@ -235,7 +235,7 @@
                                             </path>
                                         </svg>
                                         <label class=" cursor-pointer"
-                                            x-show="!isMinimizeSidebar">{{ __('Document') }}</label>
+                                            x-show="!isMinimizeSidebar">{{ __('Document Verification') }}</label>
                                     </div>
                                 </x-nav-link>
                             </div>
