@@ -31,7 +31,9 @@ class DokumenCustomerController extends Controller
 
         $statusLogs = $dokumen->statusLogs()->with('status', 'user')->get();
 
-        return view('dokumen.index', compact('dokumen', 'tempUrl', 'comment', 'statusLogs'));
+        $verifikasi = $dokumen->verifikasi;
+
+        return view('dokumen.index', compact('dokumen', 'tempUrl', 'comment', 'statusLogs', 'verifikasi'));
     }
 
     /**

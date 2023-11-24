@@ -24,10 +24,10 @@ class VerifikasiController extends Controller
         $statusIds = $request->query('status_ids', []); // Default to an empty array if no query parameter is provided
 
         if(empty($statusIds)) {
-            $verifikasi = Verifikasi::with(['dokumenCustomer', 'inspektur', 'inspektur2', 'statusDokumen'])->get();
+            $verifikasi = Verifikasi::with(['dokumenCustomer', 'inspektur', 'inspektur2', 'statusDokumen', 'rfidLocation'])->get();
         }
         else {
-            $verifikasi = Verifikasi::whereIn('status_id',$statusIds)->with(['dokumenCustomer', 'inspektur', 'inspektur2', 'statusDokumen'])->get();
+            $verifikasi = Verifikasi::whereIn('status_id',$statusIds)->with(['dokumenCustomer', 'inspektur', 'inspektur2', 'statusDokumen', 'rfidLocation'])->get();
         }
 
         return view('verifikasi.index', compact('verifikasi'));
@@ -123,6 +123,7 @@ class VerifikasiController extends Controller
             'inspektur2_id' => $request->input('inspektur2_id'),
             'status_id' => '6',
             'tanggal_mulai' => Carbon::now(),
+            'rfid_tag' => $request->input('rfid_tag'),
         ]));
         StatusLog::create([
             'dokumen_customer_id' => $request->input('dokumen_customer_id'),
@@ -306,4 +307,15 @@ class VerifikasiController extends Controller
         return redirect()->route('inspektur2.verifikasi.index');
     }
     // End Inspektur 2
+    public function getLocation(Verifikasi $verifikasi)
+    {
+        if(!$verifikasi->rfid_tag) {
+            return [null, null];
+        }
+
+        $latestLocations = $verifikasi->rfidLocations->latest()->first();
+        $locationLogs = $verifikasi->rfidLocations->get();
+
+        return [$latestLocations, $locationLogs];
+    }
 }

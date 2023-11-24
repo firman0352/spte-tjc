@@ -80,6 +80,10 @@
                                         <span
                                             class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Status</span>
                                     </th>
+                                    <th class="bg-gray-50 px-6 py-3 text-left">
+                                        <span
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Document Position</span>
+                                    </th>
                                     <th class="w-56 bg-transparant px-6 py-3 text-left dt-head-center">
                                         <span
                                             class="text-xs font-bold uppercase leading-4 tracking-wider text-black ">Action</span>
@@ -102,6 +106,9 @@
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap w-1/5">
                                             <x-status-badge :status_id="$item->status_id" :status="$item->statusDokumen->status" />
+                                        </td>
+                                        <td id="location-{{ $item->id }}" class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                            {{ $item->location ?? '-' }}
                                         </td>
                                         <td
                                             class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap dt-body-center w-1/5">
@@ -153,4 +160,18 @@
     </div>
     <script type="text/javascript" src="{{ URL::asset('/verif-details.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('/delete-confirm.js') }}"></script>
+
+    <script>
+    $(document).ready(function() {
+        setInterval(function() {
+            @foreach ($verifikasi as $item)
+                $.get('/location/' + '{{ $item->rfid_tag }}', function(data) {
+                    var location = data.location.location ? data.location.location : '-';
+                    $('#location-{{ $item->id }}').text(location);
+                    console.log(data.location);
+                });
+            @endforeach
+        }, 1000); // Check every 5 seconds
+    });
+    </script>
 </x-app-layout>

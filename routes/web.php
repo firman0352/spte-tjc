@@ -9,6 +9,7 @@ use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\PenawaranHargaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\RfidController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -162,6 +163,16 @@ Route::middleware('auth','PreventBackHistory')->group(function () {
     Route::get('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.edit.password');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+//* RFID *//
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::middleware(['role:admin'])->group(function () {
+        Route::get('/rfid', [RfidController::class, 'show']);
+        Route::get('/location', [RfidController::class, 'getLocation']);
+    });
+
+    Route::get('/location/{rfid_tag}', [RfidController::class, 'findLocation']);
 });
 
 require __DIR__.'/auth.php';
