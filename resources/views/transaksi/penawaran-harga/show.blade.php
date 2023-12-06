@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot name="title">
+        {{ __('Price Offer Details') }}
+    </x-slot>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Price Offer Details') }}
@@ -6,7 +9,7 @@
     </x-slot>
 
     <div class="">
-        <div class="max-w-full px-4 w-1/2">
+        <div class="max-w-full px-4 w-full md:w-1/2">
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="flex items-center justify-between lg:flex-row flex-col">
@@ -56,8 +59,8 @@
                         @elseif(auth()->user()->roleName() == 'admin')
                             @if ($penawaran->status_id == 4)
                                 <a href="{{ route('admin.penawaran-harga.edit', $penawaran->id) }}"
-                                    class="px-2 py-0 inline-flex items-center text-sm lg:text-lg leading-5 font-semibold rounded-full bg-green-100 text-green-800 gap-1 hover:bg-green-200 hover:text-green-900">Offer
-                                    New Penawaran</a>
+                                    class="px-2 py-0 inline-flex items-center text-sm lg:text-lg leading-5 font-semibold rounded-full bg-green-100 text-green-800 gap-1 hover:bg-green-200 hover:text-green-900">Make
+                                    New Offer</a>
 
                                 <form method="post"
                                     action="{{ route('admin.penawaran-harga.reject', $penawaran->id) }}">

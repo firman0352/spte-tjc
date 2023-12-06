@@ -29,9 +29,13 @@ class DashboardController extends Controller
         $offeringApproval = $penawaranHarga->where('status_id', 4)->count();
         $orders = Orders::all();
         $totalSuccessOrders = $orders->where('status_order_id', 15)->count();
+        $firstInvoice = $orders->where('status_order_id', 3)->count();
+        $secondInvoice = $orders->where('status_order_id', 8)->count();
+        $thirdInvoice = $orders->where('status_order_id', 11)->count();
+        $waitArrived = $orders->where('status_order_id', 13)->count();
 
 
-        return view('dashboard', compact('totalUsers', 'totalDokumenCustomers', 'totalInspector', 'needVerification', 'users', 'dokumenCustomers', 'needSpecificApproval', 'offeringApproval', 'totalSuccessOrders', 'totalTransaction'));
+        return view('dashboard', compact('totalUsers', 'totalDokumenCustomers', 'totalInspector', 'needVerification', 'users', 'dokumenCustomers', 'needSpecificApproval', 'offeringApproval', 'totalSuccessOrders', 'totalTransaction', 'firstInvoice', 'secondInvoice', 'thirdInvoice', 'waitArrived'));
     }
 
     public function inspekturDashboard() {
@@ -71,8 +75,14 @@ class DashboardController extends Controller
 
         $orders = Orders::whereIn('penawaran_id', $penawaranHargaId)->get();
         $totalSuccessOrders = $orders->where('status_order_id', 15)->count();
+
+        $signContract = $orders->where('status_order_id', 1)->count();
+        $firstPayment = $orders->where('status_order_id', 2)->count();
+        $secondPayment = $orders->where('status_order_id', 7)->count();
+        $thirdPayment = $orders->where('status_order_id', 10)->count();
+        $ordersArrived = $orders->where('status_order_id', 14)->count();
         
 
-        return view('dashboard', compact('dokumenCustomers', 'needApproval', 'reSubmit', 'waitFOD', 'waitProcess', 'totalTransaction', 'totalSuccessOrders'));
+        return view('dashboard', compact('dokumenCustomers', 'needApproval', 'reSubmit', 'waitFOD', 'waitProcess', 'totalTransaction', 'totalSuccessOrders', 'signContract', 'firstPayment', 'secondPayment', 'thirdPayment', 'ordersArrived'));
     }
 }

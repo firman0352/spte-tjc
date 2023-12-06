@@ -1,12 +1,12 @@
-<div class="flex gap-10">
-    <div class="bg-white overflow-hidden shadow-sm rounded-lg w-2/5 max-h-80">
+<div class="flex md:flex-row flex-col gap-10">
+    <div class="bg-white overflow-hidden shadow-sm rounded-lg w-full md:w-2/5 max-h-80">
         <div class="p-6 text-gray-900 flex flex-col items-center">
             <img src="{{ asset('svg/welcoming.svg') }}" alt="welcoming image" class="w-[180px]">
             <p class="text-black font-bold text-lg">{{ __('Welcome back') }}, {{ Auth::user()->name }}</p>
             <p>{{ __("You're logged in!") }}</p>
         </div>
     </div>
-    <div class="flex flex-col gap-5 w-3/5">
+    <div class="flex flex-col gap-5 w-full md:w-3/5">
         @if (auth()->user()->inspektur->jabatan_id == 1)
             @if ($needVerification1)
                 <div class="bg-white overflow-hidden shadow-sm rounded-lg py-4 px-10">

@@ -10,6 +10,9 @@
     }
 </style>
 <x-app-layout>
+    <x-slot name="title">
+        {{ __('Verification List') }}
+    </x-slot>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Verification List') }}
@@ -82,7 +85,8 @@
                                     </th>
                                     <th class="bg-gray-50 px-6 py-3 text-left">
                                         <span
-                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Document Position</span>
+                                            class="text-xs font-bold uppercase leading-4 tracking-wider text-black">Document
+                                            Location</span>
                                     </th>
                                     <th class="w-56 bg-transparant px-6 py-3 text-left dt-head-center">
                                         <span
@@ -107,7 +111,8 @@
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap w-1/5">
                                             <x-status-badge :status_id="$item->status_id" :status="$item->statusDokumen->status" />
                                         </td>
-                                        <td id="location-{{ $item->id }}" class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                        <td id="location-{{ $item->id }}"
+                                            class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                                             {{ $item->location ?? '-' }}
                                         </td>
                                         <td
@@ -162,16 +167,17 @@
     <script type="text/javascript" src="{{ URL::asset('/delete-confirm.js') }}"></script>
 
     <script>
-    $(document).ready(function() {
-        setInterval(function() {
-            @foreach ($verifikasi as $item)
-                $.get('/location/' + '{{ $item->rfid_tag }}', function(data) {
-                    var location = data.location.location ? data.location.location : '-';
-                    $('#location-{{ $item->id }}').text(location);
-                    console.log(data.location);
-                });
-            @endforeach
-        }, 1000); // Check every 5 seconds
-    });
+        $(document).ready(function() {
+            setInterval(function() {
+                @foreach ($verifikasi as $item)
+                    $.get('/location/' + '{{ $item->rfid_tag }}', function(data) {
+                        var location = data.location.location ? data.location.location : '-';
+                        $('#location-{{ $item->id }}').text(location);
+                        console.log(data.location);
+                    });
+                @endforeach
+            }, 1000); // Check every 5 seconds
+        });
     </script>
 </x-app-layout>
+
