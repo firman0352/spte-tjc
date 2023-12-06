@@ -1,42 +1,42 @@
 <div class="flex justify-between">
-    <div class="bg-white overflow-hidden shadow-sm rounded-lg w-1/6 flex flex-col items-center py-3">
-        <p class="text-md text-black font-bold">Total User </p>
+    <div class="bg-white overflow-hidden shadow-sm rounded-lg w-1/6 flex flex-col items-center py-3 justify-center">
+        <p class="text-xs md:text-md text-black text-center font-bold">Total User </p>
         <div class="flex items-center gap-1 text-indigo-500 mt-2">
-            <p class="text-5xl">{{ $totalUsers }}</p>
+            <p class="text-2xl md:text-5xl">{{ $totalUsers }}</p>
         </div>
     </div>
 
-    <div class="bg-white overflow-hidden shadow-sm rounded-lg w-1/6 flex flex-col items-center py-3">
-        <p class="text-md text-black font-bold">Verified User </p>
+    <div class="bg-white overflow-hidden shadow-sm rounded-lg w-1/6 flex flex-col items-center py-3 justify-center">
+        <p class="text-xs md:text-md text-black text-center font-bold">Verified User </p>
         <div class="flex items-center gap-1 text-indigo-500 mt-2">
-            <p class="text-5xl">{{ $totalDokumenCustomers }}</p>
+            <p class="text-2xl md:text-5xl">{{ $totalDokumenCustomers }}</p>
         </div>
     </div>
 
-    <div class="bg-white overflow-hidden shadow-sm rounded-lg w-1/6 flex flex-col items-center py-3">
-        <p class="text-md text-black font-bold">Total Inspector </p>
+    <div class="bg-white overflow-hidden shadow-sm rounded-lg w-1/6 flex flex-col items-center py-3 justify-center">
+        <p class="text-xs md:text-md text-black text-center font-bold">Total Inspector </p>
         <div class="flex items-center gap-1 text-indigo-500 mt-2">
-            <p class="text-5xl">{{ $totalInspector }}</p>
+            <p class="text-2xl md:text-5xl">{{ $totalInspector }}</p>
         </div>
     </div>
 
-    <div class="bg-white overflow-hidden shadow-sm rounded-lg w-1/6 flex flex-col items-center py-3">
-        <p class="text-md text-black font-bold">Total Transaction </p>
+    <div class="bg-white overflow-hidden shadow-sm rounded-lg w-1/6 flex flex-col items-center py-3 justify-center">
+        <p class="text-xs md:text-md text-black text-center font-bold">Total Transaction </p>
         <div class="flex items-center gap-1 text-indigo-500 mt-2">
-            <p class="text-5xl">{{ $totalTransaction }}</p>
+            <p class="text-2xl md:text-5xl">{{ $totalTransaction }}</p>
         </div>
     </div>
 
-    <div class="bg-white overflow-hidden shadow-sm rounded-lg w-1/6 flex flex-col items-center py-3">
-        <p class="text-md text-black font-bold">Successful Transaction </p>
+    <div class="bg-white overflow-hidden shadow-sm rounded-lg w-1/6 flex flex-col items-center py-3 justify-center">
+        <p class="text-xs md:text-md text-black text-center font-bold">Successful Transaction </p>
         <div class="flex items-center gap-1 text-indigo-500 mt-2">
-            <p class="text-5xl">{{ $totalSuccessOrders }}</p>
+            <p class="text-2xl md:text-5xl">{{ $totalSuccessOrders }}</p>
         </div>
     </div>
 </div>
 
-<div class="flex w-full mt-10 gap-10">
-    <div class="bg-white overflow-hidden shadow-sm rounded-lg w-2/5 max-h-80">
+<div class="flex flex-col md:flex-row w-full mt-10 gap-10">
+    <div class="bg-white overflow-hidden shadow-sm rounded-lg w-full md:w-2/5 max-h-80">
         <div class="p-6 text-gray-900 flex flex-col items-center">
             <img src="{{ asset('svg/welcoming.svg') }}" alt="welcoming image" class="w-[180px]">
             <p class="text-black font-bold text-lg">{{ __('Welcome back') }}, {{ Auth::user()->name }}
@@ -44,7 +44,7 @@
             <p>{{ __("You're logged in!") }}</p>
         </div>
     </div>
-    <div class="flex flex-col gap-5 w-3/5">
+    <div class="flex flex-col gap-5 md:w-3/5 w-full">
         @if ($needVerification)
             <div class="bg-white overflow-hidden shadow-sm rounded-lg py-4 px-10">
                 <a href="{{ route('admin.verifikasi.menunggu') }}" class="text-black flex justify-between items-center">

@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot name="title">
+        {{ __('Create Verification') }}
+    </x-slot>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Create Verification') }}
@@ -55,7 +58,8 @@
                         <div class="mb-4">
                             <label for="rfid_tag" class="block text-gray-700 text-sm font-semibold mb-2">Pair
                                 RFID Tag:</label>
-                            <x-text-input id="rfid_tag" class="block mt-1 w-full" type="text" name="rfid_tag" :value="session('rfid_tag')" readonly required autofocus />
+                            <x-text-input id="rfid_tag" class="block mt-1 w-full" type="text" name="rfid_tag"
+                                :value="session('rfid_tag')" readonly required autofocus />
                         </div>
 
                         <div>
@@ -76,7 +80,7 @@
             $.get('/rfid', function(data) {
                 $('#rfid_tag').val(data.rfid_tag);
             });
-            console.log(data.rfid_tag); 
+            console.log(data.rfid_tag);
         }, 1000); // Check every second
     });
 </script>

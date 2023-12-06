@@ -1,20 +1,20 @@
-    <div class=" flex flex-col sm:flex-row justify-between gap-10">
-        <div class=" flex sm:flex-col sm:justify-between gap-10 sm:w-1/4 ">
-            <div class="bg-white overflow-hidden shadow-sm rounded-lg flex flex-col items-center py-3 px-3 sm:px-0">
-                <p class="text-md text-black font-bold">Total Transaction</p>
+    <div class=" flex flex-col md:flex-row justify-between gap-10">
+        <div class=" flex md:flex-col md:justify-between gap-10 md:w-1/4 ">
+            <div class="bg-white overflow-hidden shadow-sm rounded-lg flex flex-col items-center py-3 px-3 md:px-0">
+                <p class="text-md text-black font-bold text-center">Total Transaction</p>
                 <div class="flex items-center gap-1 text-indigo-500 mt-2">
                     <p class="text-5xl">{{ $totalTransaction }}</p>
                 </div>
             </div>
 
-            <div class="bg-white overflow-hidden shadow-sm rounded-lg flex flex-col items-center py-3 px-3 sm:px-0">
-                <p class="text-md text-black font-bold">Successful Transaction</p>
+            <div class="bg-white overflow-hidden shadow-sm rounded-lg flex flex-col items-center py-3 px-3 md:px-0">
+                <p class="text-md text-black font-bold text-center">Successful Transaction</p>
                 <div class="flex items-center gap-1 text-indigo-500 mt-2">
                     <p class="text-5xl">{{ $totalSuccessOrders }}</p>
                 </div>
             </div>
         </div>
-        <div class="bg-white overflow-hidden shadow-sm rounded-lg sm:w-3/4 flex flex-col items-center py-3 ">
+        <div class="bg-white overflow-hidden shadow-sm rounded-lg md:w-3/4 flex flex-col items-center py-3 ">
             @if (auth()->user()->dokumenCustomer)
                 @if (auth()->user()->dokumenCustomer->status_id == 3)
                     <div class="p-6 flex items-center gap-3 text-indigo-500 mt-2">
@@ -31,7 +31,7 @@
                     </div>
                 @else
                     <div class="p-6 flex items-center gap-3 text-indigo-500 mt-2">
-                        <img src="{{ asset('svg/progress.svg') }}" alt="progress image" class="w-[120px] sm:w-[200px]">
+                        <img src="{{ asset('svg/progress.svg') }}" alt="progress image" class="w-[120px] md:w-[200px]">
                         <div class="flex flex-col gap-2 items-center">
                             <p class="text-2xl text-center font-bold">Be patient,</p>
                             <p class="text-2xl text-center font-bold">your documents are being checked!</p>
@@ -66,15 +66,15 @@
         </div>
     </div>
 
-    <div class="flex flex-col sm:flex-row gap-10 mt-10 w-full">
-        <div class="bg-white overflow-hidden shadow-sm rounded-lg sm:w-2/5 max-h-80">
+    <div class="flex flex-col md:flex-row gap-10 mt-10 w-full">
+        <div class="bg-white overflow-hidden shadow-sm rounded-lg md:w-2/5 max-h-80">
             <div class="p-6 text-gray-900 flex flex-col items-center">
                 <img src="{{ asset('svg/welcoming.svg') }}" alt="welcoming image" class="w-[180px]">
                 <p class="text-black font-bold text-lg">{{ __('Welcome back') }}, {{ Auth::user()->name }}</p>
                 <p>{{ __("You're logged in!") }}</p>
             </div>
         </div>
-        <div class="flex flex-col gap-5 sm:w-3/5">
+        <div class="flex flex-col gap-5 md:w-3/5">
             @if (auth()->user()->dokumenCustomer)
                 @if (auth()->user()->dokumenCustomer->status_id == 4)
                     <div class="bg-white overflow-hidden shadow-sm rounded-lg py-4 px-10">

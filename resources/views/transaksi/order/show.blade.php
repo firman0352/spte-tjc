@@ -1,12 +1,15 @@
 <x-app-layout>
+    <x-slot name="title">
+        {{ __('Order Details') }}
+    </x-slot>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Orders Details') }}
+            {{ __('Order Details') }}
         </h2>
     </x-slot>
 
-    <div class="flex">
-        <div class="max-w-full px-4 w-1/2">
+    <div class="flex flex-col md:flex-row">
+        <div class="max-w-full px-4 w-full md:w-1/2">
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="flex items-center justify-between lg:flex-row flex-col">
@@ -142,7 +145,7 @@
             @endif
         </div>
         @customer
-            <div class="max-w-full px-4 xl:w-1/2">
+            <div class="max-w-full px-4 xl:w-1/2 mt-4 md:mt-0">
                 <div class="overflow-hidden bg-white shadow-sm rounded-lg p-6 flex flex-col items-center">
                     <h1 class="text-black font-bold">Verification Progress Details</h1>
                     <div>
