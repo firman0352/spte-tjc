@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot name="title">
+        {{ __('Product Specification Submission List') }}
+    </x-slot>
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="text-xl font-semibold leading-tight text-gray-800">

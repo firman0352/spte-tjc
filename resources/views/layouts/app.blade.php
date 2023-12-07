@@ -6,9 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>
+        @isset($title)
+            {{ $title }} | Tri Jaya Coco
+        @else
+            Tri Jaya Coco
+        @endisset
+    </title>
 
     <!-- Fonts -->
+
+    <link rel="icon" href="{{ asset('/Logo-PT.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('/Logo-PT.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.css">
@@ -168,7 +177,6 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="{{ URL::asset('/profil.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>

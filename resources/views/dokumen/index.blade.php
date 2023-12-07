@@ -1,11 +1,15 @@
 <x-app-layout>
+    <x-slot name="title">
+        {{ __('Detail Document') }}
+    </x-slot>
+
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Company Document Detail') }}
         </h2>
     </x-slot>
 
-    <div class="flex">
+    <div class="flex flex-col md:flex-row">
         <div class="max-w-full px-4 xl:w-1/2">
             <div class="overflow-hidden bg-white shadow-sm rounded-lg">
                 <div class="overflow-hidden bg-white p-6">
@@ -38,7 +42,8 @@
                                 <h1 class="text-md sm:text-xl text-black font-bold">{{ $dokumen->created_at }}</h1>
                                 @if ($dokumen->verifikasi)
                                     <p class="text-xs text-black">Current Document Position</p>
-                                    <h1 class="text-md sm:text-xl text-black font-bold">{{ $dokumen->verifikasi->location ?? '-' }}</h1>
+                                    <h1 class="text-md sm:text-xl text-black font-bold">
+                                        {{ $dokumen->verifikasi->location ?? '-' }}</h1>
                                 @endif
                             </div>
                             <div class="flex flex-col items-start gap-2">
@@ -82,7 +87,7 @@
                 </div>
             </div>
         </div>
-        <div class="max-w-full px-4 xl:w-1/2">
+        <div class="max-w-full px-4 xl:w-1/2 md:mt-0 mt-4">
             <div class="overflow-hidden bg-white shadow-sm rounded-lg p-6 flex flex-col items-center">
                 <h1 class="text-black font-bold">Verification Progress Details</h1>
                 <div>
@@ -166,3 +171,4 @@
         });
     </script>
 </x-app-layout>
+

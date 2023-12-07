@@ -1,7 +1,10 @@
 <x-app-layout>
+    <x-slot name="title">
+        {{ __('Make New Offer') }}
+    </x-slot>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Offer New Penawaran') }}
+            {{ __('Make New Offer') }}
         </h2>
     </x-slot>
 

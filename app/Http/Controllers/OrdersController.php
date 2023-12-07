@@ -339,7 +339,7 @@ class OrdersController extends Controller
             return redirect()->back()->with('error', $result->message);
         }
         
-        return redirect()->route('admin.orders.index')->with('success', 'Finished product berhasil diupload');
+        return redirect()->route('admin.orders.index')->with('success', 'Finished product successfully uploaded');
     }
 
     public function uploadTestLab(Orders $orders)

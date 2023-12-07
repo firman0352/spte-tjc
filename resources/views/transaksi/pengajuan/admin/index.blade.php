@@ -5,6 +5,9 @@
     }
 </style>
 <x-app-layout>
+    <x-slot name="title">
+        {{ __('Profuct Specification Submission List') }}
+    </x-slot>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Product Specification Submission') }}

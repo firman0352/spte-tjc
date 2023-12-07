@@ -1,12 +1,15 @@
 <x-app-layout>
+    <x-slot name="title">
+        {{ __('Order Details') }}
+    </x-slot>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Orders Details') }}
+            {{ __('Order Details') }}
         </h2>
     </x-slot>
 
-    <div class="flex">
-        <div class="max-w-full px-4 w-1/2">
+    <div class="flex flex-col md:flex-row">
+        <div class="max-w-full px-4 w-full md:w-1/2">
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="flex items-center justify-between lg:flex-row flex-col">
@@ -142,7 +145,7 @@
             @endif
         </div>
         @customer
-            <div class="max-w-full px-4 xl:w-1/2">
+            <div class="max-w-full px-4 xl:w-1/2 mt-4 md:mt-0">
                 <div class="overflow-hidden bg-white shadow-sm rounded-lg p-6 flex flex-col items-center">
                     <h1 class="text-black font-bold">Verification Progress Details</h1>
                     <div>
@@ -150,21 +153,21 @@
                             <ul class="steps steps-vertical text-black">
                                 @php
                                     $statuses = [
-                                        1 => 'Document Uploaded',
-                                        2 => 'Document Submitted',
-                                        3 => 'Document has been approved & the document has verified',
-                                        4 => 'Document Rejected',
-                                        5 => 'Document Revised',
-                                        6 => 'A verification request has been made to the Inspectors',
-                                        7 => 'A verification request has been made to the Inspectors',
-                                        8 => 'Document has been approved',
-                                        9 => 'Document has been approved',
-                                        10 => 'Document has been approved',
-                                        11 => 'Document has been approved',
-                                        12 => 'Document has been approved',
-                                        13 => 'Document has been approved',
-                                        14 => 'Document has been approved',
-                                        15 => 'Document has been approved',
+                                        1 => 'Contract has been signed',
+                                        2 => 'Contract has been signed',
+                                        3 => 'Proof of payment of first term has been sent',
+                                        4 => 'First term invoice has been sent',
+                                        5 => 'Production',
+                                        6 => 'Production completion',
+                                        7 => 'Product Test Lab Document Sent',
+                                        8 => 'Proof of payment of second term has been sent',
+                                        9 => 'Second term invoice has been sent',
+                                        10 => 'Freight Documents Sent',
+                                        11 => 'Proof of payment of third term has been sent',
+                                        12 => 'Third term invoice has been sent',
+                                        13 => 'Bill of Lading Sent',
+                                        14 => 'Notification that the product has arrived',
+                                        15 => 'Transaction settled',
                                         // Add more statuses as needed
                                     ];
                                 @endphp
