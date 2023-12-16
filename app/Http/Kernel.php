@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Laravel\Passport\Http\Middleware\CheckClientCredentials;
 
 class Kernel extends HttpKernel
 {
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'role' => \App\Http\Middleware\HasRole::class,
         'PreventBackHistory' => \App\Http\Middleware\PreventBackHistory::class,
         'verified.customer' => \App\Http\Middleware\VerifiedCustomer::class,
+        'client' => CheckClientCredentials::class,
     ];
 }
